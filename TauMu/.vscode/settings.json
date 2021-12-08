@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "Analysis_SR.C": "cpp",
+        "CLoop_SR.C": "cpp",
+        "CLoop_CR.C": "cpp",
+        "CLoop.C": "cpp"
+    }
+}

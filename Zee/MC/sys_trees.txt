@@ -1,0 +1,11 @@
+NOMINAL
+EG_RESOLUTION_ALL_1down
+EG_RESOLUTION_ALL_1up
+EG_SCALE_AF2_1down
+EG_SCALE_AF2_1up
+EG_SCALE_ALL_1down
+EG_SCALE_ALL_1up
+MET_SoftTrk_ResoPara
+MET_SoftTrk_ResoPerp
+MET_SoftTrk_Scale_1down
+MET_SoftTrk_Scale_1up
