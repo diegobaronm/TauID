@@ -45,9 +45,9 @@ def sample_file_generator(type_of_ntuples):
     if type_of_ntuples==1 :
         tag_checker("DATA",[],["sys"])
         tag_checker("MC",[],["sys"])
-    else if type_of_ntuples==2 :
+    elif type_of_ntuples==2 :
         tag_checker("MC",["sys"],["jet"])
-    else if type_of_ntuples==3 :
+    elif type_of_ntuples==3 :
         tag_checker("MC",["sys","jet"],[]) 
 
 
