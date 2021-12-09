@@ -422,7 +422,7 @@ void CLoop::Fill(double weight, int z_sample) {
 
                     h_lep1_eta_cuts->Fill(elec_0_p4->Eta(),weight);
                     h_lep2_eta_cuts->Fill(elec_1_p4->Eta(),weight);
-                    h_delta_R_leplep_1p_cuts->Fill(elec_0_p4->DeltaR(*elec_1_p4),weight);
+                    h_delta_R_leplep_cuts->Fill(elec_0_p4->DeltaR(*elec_1_p4),weight);
 
                     h_trigger_1_pass_cuts->Fill((trigger_match_1 | trigger_match_2),weight);
                     h_trigger_2_pass_cuts->Fill(trigger_match_12,weight);
@@ -458,7 +458,7 @@ void CLoop::Fill(double weight, int z_sample) {
 
                       h_lep1_eta_cuts_ptl->Fill(elec_0_p4->Eta(),weight);
                       h_lep2_eta_cuts_ptl->Fill(elec_1_p4->Eta(),weight);
-                      h_delta_R_leplep_1p_cuts_ptl->Fill(elec_0_p4->DeltaR(*elec_1_p4),weight);
+                      h_delta_R_leplep_cuts_ptl->Fill(elec_0_p4->DeltaR(*elec_1_p4),weight);
 
                       if (Z_pt<100){
                         h_sum_pt_cuts_ptl_ZpTa->Fill(elec_0_p4->Pt()+elec_1_p4->Pt(),weight);

@@ -429,7 +429,7 @@ void CLoop::Fill(double weight, int z_sample) {
 
                     h_lep1_eta_cuts->Fill(muon_0_p4->Eta(),weight);
                     h_lep2_eta_cuts->Fill(muon_1_p4->Eta(),weight);
-                    h_delta_R_leplep_1p_cuts->Fill(muon_0_p4->DeltaR(*muon_1_p4),weight);
+                    h_delta_R_leplep_cuts->Fill(muon_0_p4->DeltaR(*muon_1_p4),weight);
 
                     h_trigger_1_pass_cuts->Fill((trigger_match_1 | trigger_match_2),weight);
                     h_trigger_2_pass_cuts->Fill(trigger_match_12,weight);
@@ -464,7 +464,7 @@ void CLoop::Fill(double weight, int z_sample) {
 
                       h_lep1_eta_cuts_ptl->Fill(muon_0_p4->Eta(),weight);
                       h_lep2_eta_cuts_ptl->Fill(muon_1_p4->Eta(),weight);
-                      h_delta_R_leplep_1p_cuts_ptl->Fill(muon_0_p4->DeltaR(*muon_1_p4),weight);
+                      h_delta_R_leplep_cuts_ptl->Fill(muon_0_p4->DeltaR(*muon_1_p4),weight);
 
                       h_w_topo_cuts_ptl->Fill(1,weight);
                       h_w_dist_topo_cuts_ptl->Fill(weight,1);
