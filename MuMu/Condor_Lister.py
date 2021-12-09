@@ -16,7 +16,7 @@ def menu(question,options):
             print("Select a correct option!")
     return int(answer)  
 
-def tag_checker(dir,request,avoid):
+def tag_checker(dir,request,avoid,branches):
     os.chdir(dir)
     sys.path.append('backend')
     from dataSets import dataCombos
@@ -32,20 +32,33 @@ def tag_checker(dir,request,avoid):
                 if j in i:
                     include=False
                     break
-        if include :
+        if include and ".txt" not in branches:
             samples=samples+dataCombos[i]
+        else :
+            samples=samples+dataCombos
+
     with open("Input_Condor.txt","w") as file:
-        for j in samples:
-            file.write(j)
-            file.write('\n')
-    sys.path.pop() # CLEAN PATH        
+        if ".txt" not in branches:
+            for j in samples:
+                file.write(j+" yes "+branches)
+                file.write('\n')
+        else :
+            with open(branches) as f:
+                lines = f.readlines()
+            for l in lines:
+                for j in samples:
+                    file.write(j+" yes "+l)
+                    file.write('\n')
+
+    sys.path.pop() # CLEAN PATH   
+    sys.modules.pop("dataSets") # MODULE       
     os.chdir('..')
 
 def sample_file_generator(type_of_ntuples):
     # NOMINAL
     if type_of_ntuples==1 :
-        tag_checker("DATA",[],["sys"])
-        tag_checker("MC",[],["sys"])
+        tag_checker("DATA",[],["sys"],"NOMINAL")
+        tag_checker("MC",[],["sys"],"NOMINAL")
     elif type_of_ntuples==2 :
         tag_checker("MC",["sys"],["jet"])
     elif type_of_ntuples==3 :
