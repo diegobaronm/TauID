@@ -77,6 +77,9 @@ void CLoop::Book(double lumFactor) {
     h_lep1_pt_topo_dphi_btag_iso_pt1_pt2_mass_ptl = new TH1F("lep1_pt_topo_dphi_btag_iso_pt1_pt2_mass_ptl","Transverse momentum of lep1",200,0,200);
     h_lep1_pt_topo_dphi_btag_iso_pt2_mass_ptl = new TH1F("lep1_pt_topo_dphi_btag_iso_pt2_mass_ptl","Transverse momentum of lep1",200,0,200);
 
+    h_lep1_eta_cuts = new TH1F("lep1_eta_cuts","Eta of light lepton 1 ",50,-2.5,2.5);
+    h_lep1_eta_cuts_ptl = new TH1F("lep1_eta_cuts_ptl","Eta of light lepton 1 ",50,-2.5,2.5);
+
     //phi
     h_lep1_phi_topo= new TH1F("lep1_phi_topo","Lepton 1 phi angle",64,-3.2,3.2);
     h_lep1_phi_cuts= new TH1F("lep1_phi_cuts","Lepton 1 phi angle",64,-3.2,3.2);
@@ -91,6 +94,12 @@ void CLoop::Book(double lumFactor) {
     h_lep2_pt_topo_dphi_btag_iso_pt1_pt2_mass = new TH1F("lep2_pt_topo_dphi_btag_iso_pt1_pt2_mass","Transverse momentum of lep2",200,0,200);
     h_lep2_pt_topo_dphi_btag_iso_pt1_pt2_mass_ptl = new TH1F("lep2_pt_topo_dphi_btag_iso_pt1_pt2_mass_ptl","Transverse momentum of lep2",200,0,200);
     h_lep2_pt_topo_dphi_btag_iso_pt1_mass_ptl = new TH1F("lep2_pt_topo_dphi_btag_iso_pt1_mass_ptl","Transverse momentum of lep2",200,0,200);
+
+    h_lep2_eta_cuts = new TH1F("lep2_eta_cuts","Eta of light lepton 2 ",50,-2.5,2.5);
+    h_lep2_eta_cuts_ptl = new TH1F("lep2_eta_cuts_ptl","Eta of light lepton 2 ",50,-2.5,2.5);
+
+    h_delta_R_leplep_cuts = new TH1F("delta_R_leplep_cuts","DeltaR lep-lep ",30,0,1.5);
+    h_delta_R_leplep_cuts_ptl = new TH1F("delta_R_leplep_cuts_ptl","DeltaR lep-lep ",30,0,1.5);
 
     // Histograms for sum lepton pt
     h_sumlep_pt_topo = new TH1F("sumlep_pt_topo","Sum pT",400,0,400);
@@ -182,10 +191,10 @@ void CLoop::Book(double lumFactor) {
     h_ratio_ptjet_zpt_cuts_ptl = new TH1F("ratio_ptjet_zpt_cuts_ptl","ratio_ptjet_zpt",40,0,4);
     h_ratio_lpt_tpt_cuts_ptl = new TH1F("ratio_lpt_tpt_cuts_ptl","ratio_lpt_tpt",40,0,4);
     // TRIGGER STATISTICS
-    h_trigger_1_pass = new TH1F("trigger_1_pass","Events where 1 muon fires the trigger",2,0,2);
-    h_trigger_1_pass_cuts = new TH1F("trigger_1_pass_cuts","Events where 1 muon fires the trigger",2,0,2);
-    h_trigger_2_pass = new TH1F("trigger_2_pass","Events where 2 muons fire the trigger",2,0,2);
-    h_trigger_2_pass_cuts = new TH1F("trigger_2_pass_cuts","Events where 2 muons fire the trigger",2,0,2);
+    h_trigger_1_pass = new TH1F("trigger_1_pass","Events where 1 elec fires the trigger",2,0,2);
+    h_trigger_1_pass_cuts = new TH1F("trigger_1_pass_cuts","Events where 1 elec fires the trigger",2,0,2);
+    h_trigger_2_pass = new TH1F("trigger_2_pass","Events where 2 elecs fire the trigger",2,0,2);
+    h_trigger_2_pass_cuts = new TH1F("trigger_2_pass_cuts","Events where 2 elecs fire the trigger",2,0,2);
 }
 
 void CLoop::Fill(double weight, int z_sample) {
@@ -411,6 +420,9 @@ void CLoop::Fill(double weight, int z_sample) {
                     h_ljet2_pt_topo_cuts->Fill(ljet_1_p4->Pt(),weight);
                     h_ljet3_pt_topo_cuts->Fill(ljet_2_p4->Pt(),weight);
 
+                    h_lep1_eta_cuts->Fill(elec_0_p4->Eta(),weight);
+                    h_lep2_eta_cuts->Fill(elec_1_p4->Eta(),weight);
+                    h_delta_R_leplep_1p_cuts->Fill(elec_0_p4->DeltaR(*elec_1_p4),weight);
 
                     h_trigger_1_pass_cuts->Fill((trigger_match_1 | trigger_match_2),weight);
                     h_trigger_2_pass_cuts->Fill(trigger_match_12,weight);
@@ -443,6 +455,10 @@ void CLoop::Fill(double weight, int z_sample) {
                       h_ljet1_pt_topo_cuts_tpt->Fill(ljet_0_p4->Pt(),weight);
                       h_ljet2_pt_topo_cuts_tpt->Fill(ljet_1_p4->Pt(),weight);
                       h_ljet3_pt_topo_cuts_tpt->Fill(ljet_2_p4->Pt(),weight);
+
+                      h_lep1_eta_cuts_ptl->Fill(elec_0_p4->Eta(),weight);
+                      h_lep2_eta_cuts_ptl->Fill(elec_1_p4->Eta(),weight);
+                      h_delta_R_leplep_1p_cuts_ptl->Fill(elec_0_p4->DeltaR(*elec_1_p4),weight);
 
                       if (Z_pt<100){
                         h_sum_pt_cuts_ptl_ZpTa->Fill(elec_0_p4->Pt()+elec_1_p4->Pt(),weight);
@@ -510,6 +526,9 @@ void CLoop::Style(double lumFactor) {
     h_lep1_pt_topo_dphi_btag_iso_pt1_pt2_mass_ptl->Write();
     h_lep1_pt_topo_dphi_btag_iso_pt2_mass_ptl->Write();
 
+    h_lep1_eta_cuts->Write();
+    h_lep1_eta_cuts_ptl->Write();
+
     //phi
     h_lep1_phi_topo->Write();
     h_lep1_phi_cuts->Write();
@@ -524,6 +543,12 @@ void CLoop::Style(double lumFactor) {
     h_lep2_pt_topo_dphi_btag_iso_pt1_pt2_mass->Write();
     h_lep2_pt_topo_dphi_btag_iso_pt1_pt2_mass_ptl->Write();
     h_lep2_pt_topo_dphi_btag_iso_pt1_mass_ptl->Write();
+
+    h_lep2_eta_cuts->Write();
+    h_lep2_eta_cuts_ptl->Write();
+
+    h_delta_R_leplep_cuts->Write();
+    h_delta_R_leplep_cuts_ptl->Write();
 
     h_sumlep_pt_topo->Write();
     h_sumlep_pt_topo_dphi->Write();
