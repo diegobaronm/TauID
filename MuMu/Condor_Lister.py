@@ -21,19 +21,19 @@ def tag_checker(dir,request,avoid):
     sys.path.append('backend')
     from dataSets import dataCombos
     samples=[]
-        for i in dataCombos:
-            include=True
-            for j in request:
-                if j not in i:
+    for i in dataCombos:
+        include=True
+        for j in request:
+            if j not in i:
+                include=False
+                break
+        if include :
+            for j in avoid:
+                if j in i:
                     include=False
                     break
-            if include :
-                for j in avoid:
-                    if j in i:
-                        include=False
-                        break
-            if include :
-                samples=samples+dataCombos[i]
+        if include :
+            samples=samples+dataCombos[i]
     with open("Input_Condor.txt","w") as file:
         for j in samples:
             file.write(j)
