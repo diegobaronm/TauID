@@ -38,6 +38,7 @@ def tag_checker(dir,request,avoid):
         for j in samples:
             file.write(j)
             file.write('\n')
+    sys.path.pop() # CLEAN PATH        
     os.chdir('..')
 
 def sample_file_generator(type_of_ntuples):
