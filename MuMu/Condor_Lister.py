@@ -34,8 +34,8 @@ def tag_checker(dir,request,avoid,branches):
                     break
         if include and ".txt" not in branches:
             samples=samples+dataCombos[i]
-        else :
-            samples=samples+dataCombos
+        elif include and ".txt" in branches :
+            samples=samples+[i]
 
     with open("Input_Condor.txt","w") as file:
         if ".txt" not in branches:
@@ -47,7 +47,7 @@ def tag_checker(dir,request,avoid,branches):
                 lines = f.readlines()
             for l in lines:
                 for j in samples:
-                    file.write(j+" yes "+l)
+                    file.write(j+" yes "+l.strip("\n"))
                     file.write('\n')
 
     sys.path.pop() # CLEAN PATH   
@@ -60,9 +60,9 @@ def sample_file_generator(type_of_ntuples):
         tag_checker("DATA",[],["sys"],"NOMINAL")
         tag_checker("MC",[],["sys"],"NOMINAL")
     elif type_of_ntuples==2 :
-        tag_checker("MC",["sys"],["jet"])
+        tag_checker("MC",["sys"],["jet"],"sys_trees.txt")
     elif type_of_ntuples==3 :
-        tag_checker("MC",["sys","jet"],[]) 
+        tag_checker("MC",["sys","jet"],[],"sys_jet_trees.txt") 
 
 
 
