@@ -65,9 +65,8 @@ def sample_file_generator(type_of_ntuples):
         tag_checker("MC",["sys","jet"],[],"sys_jet_trees.txt") 
 
 
-
-
-ntuples_type=menu("Nominal or systematics?",["Nominal","Systematics NO JET","Systematics JET"])
-sample_file_generator(ntuples_type)
+if __name__ == "__main__":
+    ntuples_type=menu("Nominal or systematics?",["Nominal","Systematics NO JET","Systematics JET"])
+    sample_file_generator(ntuples_type)
 
 
