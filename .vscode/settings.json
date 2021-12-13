@@ -2,6 +2,7 @@
     "files.associations": {
         "Analysis_SR.C": "cpp",
         "CLoop_CR.C": "cpp",
-        "CLoop_SR.C": "cpp"
+        "CLoop_SR.C": "cpp",
+        "Analysis_CR.C": "cpp"
     }
 }

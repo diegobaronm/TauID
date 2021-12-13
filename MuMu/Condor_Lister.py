@@ -14,7 +14,7 @@ def menu(question,options):
             incorrect_answer=False
         else :
             print("Select a correct option!")
-    return int(answer)  
+    return int(answer)
 
 def tag_checker(dir,request,avoid,branches):
     os.chdir(dir)
@@ -50,8 +50,8 @@ def tag_checker(dir,request,avoid,branches):
                     file.write(j+" yes "+l.strip("\n"))
                     file.write('\n')
 
-    sys.path.pop() # CLEAN PATH   
-    sys.modules.pop("dataSets") # MODULE       
+    sys.path.pop() # CLEAN PATH
+    sys.modules.pop("dataSets") # MODULE
     os.chdir('..')
 
 def sample_file_generator(type_of_ntuples):
@@ -62,12 +62,12 @@ def sample_file_generator(type_of_ntuples):
     elif type_of_ntuples==2 :
         tag_checker("MC",["sys"],["jet"],"sys_trees.txt")
     elif type_of_ntuples==3 :
-        tag_checker("MC",["sys","jet"],[],"sys_jet_trees.txt") 
+        tag_checker("MC",["sys","jet"],[],"sys_jet_trees.txt")
 
 
+if __name__ == "__main__":
 
-
-ntuples_type=menu("Nominal or systematics?",["Nominal","Systematics NO JET","Systematics JET"])
-sample_file_generator(ntuples_type)
+    ntuples_type=menu("Nominal or systematics?",["Nominal","Systematics NO JET","Systematics JET"])
+    sample_file_generator(ntuples_type)
 
 
