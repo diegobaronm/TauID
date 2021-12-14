@@ -245,7 +245,7 @@ void CLoop::Fill(double weight, int z_sample) {
       float q_mu0=muon_0_q;
       float q_mu1=muon_1_q;
 
-      if (q_mu0!=q_mu1 && angle<3*pi/4 && trigger_decision && muon_id && trigger_match ) {
+      if (q_mu0!=q_mu1 && angle<3*pi/4 && trigger_decision && muon_id && trigger_match && abs(muon_0_p4->Eta())>=0.1 && abs(muon_1_p4->Eta())>=0.1) {
 
         double inv_mass{};
         inv_mass=sqrt(2*muon_0_p4->Pt()*muon_1_p4->Pt()*(cosh(muon_0_p4->Eta()-muon_1_p4->Eta())-cos(muon_0_p4->Phi()-muon_1_p4->Phi())));
