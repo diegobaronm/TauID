@@ -67,7 +67,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
             }
         }*/
         // PYTHIA REWEIGHTING
-        if (z_sample==1){
+        /*if(z_sample==1){
             double zpt=truth_Z_p4->Pt()/1000;
             if(zpt>=40 & zpt<46){
                 z_w=0.995;
@@ -102,7 +102,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
             }else if(zpt>=151){
                 z_w=0.8;
             }
-        }
+        }*/
         /*if (z_sample==1){
             double zpt=truth_Z_p4->Pt()/1000;
             if (zpt>40 & zpt<80){
@@ -125,10 +125,11 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
         // check if event is from real data
         if (!(key.substr(0,4)=="data")) {
             // take product of all scale factors
-            eventWeight = weight_total*lumFactor*zpt_weight*muon_0_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium*muon_0_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium
-            *muon_0_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad*muon_0_NOMINAL_MuEffSF_Reco_QualMedium*muon_0_NOMINAL_MuEffSF_TTVA
-            *jet_NOMINAL_central_jets_global_effSF_JVT*jet_NOMINAL_central_jets_global_ineffSF_JVT*jet_NOMINAL_forward_jets_global_effSF_JVT
-            *jet_NOMINAL_forward_jets_global_ineffSF_JVT*jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85*jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85;
+            eventWeight = weight_total*lumFactor*zpt_weight*muon_0_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium/*muon_0_NOMINAL_MuEffSF_IsoFCTightTrackOnly_FixedRad*/*muon_0_NOMINAL_MuEffSF_IsoLoose_FixedRad*muon_0_NOMINAL_MuEffSF_Reco_QualMedium
+            *muon_0_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium*muon_0_NOMINAL_MuEffSF_TTVA
+            *jet_NOMINAL_central_jets_global_effSF_JVT*jet_NOMINAL_central_jets_global_ineffSF_JVT*jet_NOMINAL_forward_jets_global_effSF_JVT*
+            jet_NOMINAL_forward_jets_global_ineffSF_JVT*jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85*jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85
+            *tau_0_NOMINAL_TauEffSF_reco;
         }
 
         // fill histograms

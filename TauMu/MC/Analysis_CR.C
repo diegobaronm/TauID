@@ -336,7 +336,7 @@ void CLoop::Fill(double weight, int z_sample) {
 
       h_delta_phi->Fill(angle,weight);
 
-      if (ql!=qtau && angle<3*pi/4 && trigger_decision && lepton_id && trigger_match && abs(muon_0_p4->Eta())>=0.1 && abs(tau_0_p4->Eta())>=0.1){
+      if (ql==qtau && angle<3*pi/4 && trigger_decision && lepton_id && trigger_match && abs(muon_0_p4->Eta())>=0.1 && abs(tau_0_p4->Eta())>=0.1){
 
         h_delta_phi_second_stage->Fill(angle,weight);
         //topology
