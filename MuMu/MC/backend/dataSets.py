@@ -8,7 +8,7 @@ import os
 # Name of host
 import socket
 host=socket.gethostname()
-local_execution = (host=='diegol' or host=='diego')
+local_execution = (host=='diegol' or host=='diego' or host=='diegoRyzen')
 
 # list of directories to check for .root files
 if (not local_execution):

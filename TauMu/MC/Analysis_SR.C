@@ -95,15 +95,6 @@ void CLoop::Book(double lumFactor) {
     // VARIABLES ONLY ONCE
 
     //VARIABLES FOLLOWED AFTER EACH CUT
-    // Event number and run number
-    h_RunN_topo = new TH1F("RunN_topo","Run number",94000,276000,370000);
-    h_RunN_topo_tpt = new TH1F("RunN_topo_tpt","Run number",94000,276000,370000);
-
-    h_EventN_RN363738_topo = new TH1F("EventN_RN363738_topo","Event number RN(363738)",100000,0.0,3.0e9);
-    h_EventN_RN363738_topo_tpt = new TH1F("EventN_RN363738_topo_tpt","Event number RN(363738)",100000,0,3.0e9);
-
-    h_EventN_RN363910_topo = new TH1F("EventN_RN363910_topo","Event number RN(363910)",100000,0.0,3.0e9);
-    h_EventN_RN363910_topo_tpt = new TH1F("EventN_RN363910_topo_tpt","Event number RN(363910)",100000,0.0,3.0e9);
 
     // pT light-jets
     h_ljet1_pt_topo = new TH1F("ljet1_pt_topo","Light-jet 1 pT",200,0,200);
@@ -416,7 +407,7 @@ void CLoop::Fill(double weight, int z_sample) {
       float ql=muon_0_q;
       float qtau=tau_0_q;
 
-      if (ql==qtau && angle<3*pi/4 && trigger_decision && lepton_id && trigger_match && abs(muon_0_p4->Eta())>=0.1 && abs(tau_0_p4->Eta())>=0.1) {
+      if (ql!=qtau && angle<3*pi/4 && trigger_decision && lepton_id && trigger_match && abs(muon_0_p4->Eta())>=0.1 && abs(tau_0_p4->Eta())>=0.1) {
 
         h_delta_phi_second_stage->Fill(angle,weight);
         //topology
