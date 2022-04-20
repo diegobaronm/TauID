@@ -5,16 +5,16 @@ totRealLum = 57.6164
 # Name of host
 import socket
 host=socket.gethostname()
-running_remote=(host!='diegol')
+running_remote=('lxplus' in host)
 # list of directories to check for .root files
 # Check if running in lxplus
-if('diegol'!=host):
-  path_to_samples='/home/diego/DATA/v26/'
+if(running_remote):
+  path_to_samples='remote_path'
   samples=os.listdir(path_to_samples)
   dirs=[path_to_samples+i+'/' for i in samples if 'mc' in i]
-   
+
 else :
-  path_to_samples='/home/diego/DATA/v26/'
+  path_to_samples='/media/diego/27AB07EC0C8BE0A7/DATA/v26/'
   samples=os.listdir(path_to_samples)
   dirs=[path_to_samples+i+'/' for i in samples if 'mc' in i]
 

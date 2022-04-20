@@ -107,15 +107,15 @@ TH1F * h_lep_pt1_topo_dphi_btag_iso_rnn_ptmu_omega_outside;
 TH1F * h_lep_pt1_topo_dphi_btag_iso_rnn_ptmu_omega_mreco_tpt_outside;
 TH1F * h_lep_pt1_topo_dphi_btag_iso_rnn_ptmu_omega_mreco_outside;
 
-TH1F * h_tau_pt_1p_cuts;
-TH1F * h_tau_pt_1p_cuts_tpt;
-TH1F * h_tau_pt_3p_cuts;
-TH1F * h_tau_pt_3p_cuts_tpt;
+TH2F * h_tau_pt_1p_cuts;
+TH2F * h_tau_pt_1p_cuts_tpt;
+TH2F * h_tau_pt_3p_cuts;
+TH2F * h_tau_pt_3p_cuts_tpt;
 
-TH1F * h_tau_eta_1p_cuts;
-TH1F * h_tau_eta_1p_cuts_tpt;
-TH1F * h_tau_eta_3p_cuts;
-TH1F * h_tau_eta_3p_cuts_tpt;
+TH2F * h_tau_eta_1p_cuts;
+TH2F * h_tau_eta_1p_cuts_tpt;
+TH2F * h_tau_eta_3p_cuts;
+TH2F * h_tau_eta_3p_cuts_tpt;
 
 TH1F * h_delta_R_taulep_1p_cuts;
 TH1F * h_delta_R_taulep_1p_cuts_tpt;

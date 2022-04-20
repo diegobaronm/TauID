@@ -132,10 +132,10 @@ TH2F * h_tau_pt_1p_cuts_tpt;
 TH2F * h_tau_pt_3p_cuts;
 TH2F * h_tau_pt_3p_cuts_tpt;
 
-TH1F * h_tau_eta_1p_cuts;
-TH1F * h_tau_eta_1p_cuts_tpt;
-TH1F * h_tau_eta_3p_cuts;
-TH1F * h_tau_eta_3p_cuts_tpt;
+TH2F * h_tau_eta_1p_cuts;
+TH2F * h_tau_eta_1p_cuts_tpt;
+TH2F * h_tau_eta_3p_cuts;
+TH2F * h_tau_eta_3p_cuts_tpt;
 
 TH1F * h_delta_R_taulep_1p_cuts;
 TH1F * h_delta_R_taulep_1p_cuts_tpt;

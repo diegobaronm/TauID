@@ -159,15 +159,15 @@ void CLoop::Book(double lumFactor) {
     h_lep_pt1_topo_dphi_btag_iso_rnn_ptmu_omega_mreco_tpt_inside = new TH1F("tau_pt_topo_dphi_btag_iso_rnn_ptmu_omega_mreco_tpt_inside","Transverse momentum of tau",200,0,200);
     h_lep_pt1_topo_dphi_btag_iso_rnn_ptmu_omega_mreco_tpt_outside = new TH1F("tau_pt_topo_dphi_btag_iso_rnn_ptmu_omega_mreco_tpt_outside","Transverse momentum of tau",200,0,200);
 
-    h_tau_pt_1p_cuts = new TH1F("tau_pt_1p_cuts","Transverse momentum of tau lepton 1 prongs",200,0,200);
-    h_tau_pt_1p_cuts_tpt = new TH1F("tau_pt_1p_cuts_tpt","Transverse momentum of tau lepton 1 prongs",200,0,200);
-    h_tau_pt_3p_cuts = new TH1F("tau_pt_3p_cuts","Transverse momentum of tau lepton 3 prongs",200,0,200);
-    h_tau_pt_3p_cuts_tpt = new TH1F("tau_pt_3p_cuts_tpt","Transverse momentum of tau lepton 3 prongs",200,0,200);
+    h_tau_pt_1p_cuts = new TH2F("tau_pt_1p_cuts","Transverse momentum of tau lepton 1 prongs",200,0,200,2,0,2);
+    h_tau_pt_1p_cuts_tpt = new TH2F("tau_pt_1p_cuts_tpt","Transverse momentum of tau lepton 1 prongs",200,0,200,2,0,2);
+    h_tau_pt_3p_cuts = new TH2F("tau_pt_3p_cuts","Transverse momentum of tau lepton 3 prongs",200,0,200,2,0,2);
+    h_tau_pt_3p_cuts_tpt = new TH2F("tau_pt_3p_cuts_tpt","Transverse momentum of tau lepton 3 prongs",200,0,200,2,0,2);
 
-    h_tau_eta_1p_cuts = new TH1F("tau_eta_1p_cuts","Eta of tau lepton 1 prongs",50,-2.5,2.5);
-    h_tau_eta_1p_cuts_tpt = new TH1F("tau_eta_1p_cuts_tpt","Eta of tau lepton 1 prongs",50,-2.5,2.5);
-    h_tau_eta_3p_cuts = new TH1F("tau_eta_3p_cuts","Eta of tau lepton 3 prongs",50,-2.5,2.5);
-    h_tau_eta_3p_cuts_tpt = new TH1F("tau_eta_3p_cuts_tpt","Eta of tau lepton 3 prongs",50,-2.5,2.5);
+    h_tau_eta_1p_cuts = new TH2F("tau_eta_1p_cuts","Eta of tau lepton 1 prongs",50,-2.5,2.5,2,0,2);
+    h_tau_eta_1p_cuts_tpt = new TH2F("tau_eta_1p_cuts_tpt","Eta of tau lepton 1 prongs",50,-2.5,2.5,2,0,2);
+    h_tau_eta_3p_cuts = new TH2F("tau_eta_3p_cuts","Eta of tau lepton 3 prongs",50,-2.5,2.5,2,0,2);
+    h_tau_eta_3p_cuts_tpt = new TH2F("tau_eta_3p_cuts_tpt","Eta of tau lepton 3 prongs",50,-2.5,2.5,2,0,2);
 
     h_delta_R_taulep_1p_cuts = new TH1F("delta_R_taulep_1p_cuts","DeltaR tau-lep 1 prongs",30,0,1.5);
     h_delta_R_taulep_1p_cuts_tpt = new TH1F("delta_R_taulep_1p_cuts_tpt","DeltaR tau-lep 1 prongs",30,0,1.5);
@@ -638,9 +638,6 @@ void CLoop::Fill(double weight, int z_sample) {
           if (tau_0_n_charged_tracks==3){
             h_rnn_score_3prong_topo->Fill(tau_0_jet_rnn_score_trans,weight);
           }
-          h_RunN_topo->Fill(run_number,weight);
-          if(run_number==363738){h_EventN_RN363738_topo->Fill(event_number,weight);}
-          if(run_number==363910){h_EventN_RN363910_topo->Fill(event_number,weight);}
           h_jet_n_topo->Fill(n_jets, weight);
           h_muon_0_iso_topo->Fill(muon_0_iso_TightTrackOnly_FixedRad,weight);
           h_omega_topo->Fill(omega,weight);
@@ -979,15 +976,15 @@ void CLoop::Fill(double weight, int z_sample) {
                         if (tau_0_n_charged_tracks==1){
                           h_lep_pt_1p_cuts->Fill(muon_0_p4->Pt(),weight);
                           h_lep_eta_1p_cuts->Fill(muon_0_p4->Eta(),weight);
-                          h_tau_pt_1p_cuts->Fill(tau_0_p4->Pt(),weight);
-                          h_tau_eta_1p_cuts->Fill(tau_0_p4->Eta(),weight);
+                          h_tau_pt_1p_cuts->Fill(tau_0_p4->Pt(),tau_0_truth_isHadTau,weight);
+                          h_tau_eta_1p_cuts->Fill(tau_0_p4->Eta(),tau_0_truth_isHadTau,weight);
                           h_delta_R_taulep_1p_cuts->Fill(tau_0_p4->DeltaR(*muon_0_p4),weight);
                         }
                         if (tau_0_n_charged_tracks==3){
                           h_lep_pt_3p_cuts->Fill(muon_0_p4->Pt(),weight);
                           h_lep_eta_3p_cuts->Fill(muon_0_p4->Eta(),weight);
-                          h_tau_pt_3p_cuts->Fill(tau_0_p4->Pt(),weight);
-                          h_tau_eta_3p_cuts->Fill(tau_0_p4->Eta(),weight);
+                          h_tau_pt_3p_cuts->Fill(tau_0_p4->Pt(),tau_0_truth_isHadTau,weight);
+                          h_tau_eta_3p_cuts->Fill(tau_0_p4->Eta(),tau_0_truth_isHadTau,weight);
                           h_delta_R_taulep_3p_cuts->Fill(tau_0_p4->DeltaR(*muon_0_p4),weight);
                         }
 
@@ -1085,9 +1082,6 @@ void CLoop::Fill(double weight, int z_sample) {
                         }
                         //TAU PT CUT
                         if (cuts[7]==1){
-                          h_RunN_topo_tpt->Fill(run_number,weight);
-                          if(run_number==363738){h_EventN_RN363738_topo_tpt->Fill(event_number,weight);}
-                          if(run_number==363910){h_EventN_RN363910_topo_tpt->Fill(event_number,weight);}
                           h_met_topo_dphi_btag_iso_rnn_ptmu_omega_mreco_tpt->Fill(met_reco_p4->Pt(),weight);
                           h_jet_n_topo_dphi_btag_iso_rnn_ptmu_omega_mreco_tpt->Fill(n_jets, weight);
                           h_lep_pt0_topo_dphi_btag_iso_rnn_ptmu_omega_mreco_tpt->Fill(muon_0_p4->Pt(),weight);
@@ -1114,15 +1108,15 @@ void CLoop::Fill(double weight, int z_sample) {
                           if (tau_0_n_charged_tracks==1){
                             h_lep_pt_1p_cuts_tpt->Fill(muon_0_p4->Pt(),weight);
                             h_lep_eta_1p_cuts_tpt->Fill(muon_0_p4->Eta(),weight);
-                            h_tau_pt_1p_cuts_tpt->Fill(tau_0_p4->Pt(),weight);
-                            h_tau_eta_1p_cuts_tpt->Fill(tau_0_p4->Eta(),weight);
+                            h_tau_pt_1p_cuts_tpt->Fill(tau_0_p4->Pt(),tau_0_truth_isHadTau,weight);
+                            h_tau_eta_1p_cuts_tpt->Fill(tau_0_p4->Eta(),tau_0_truth_isHadTau,weight);
                             h_delta_R_taulep_1p_cuts_tpt->Fill(tau_0_p4->DeltaR(*muon_0_p4),weight);
                           }
                           if (tau_0_n_charged_tracks==3){
                             h_lep_pt_3p_cuts_tpt->Fill(muon_0_p4->Pt(),weight);
                             h_lep_eta_3p_cuts_tpt->Fill(muon_0_p4->Eta(),weight);
-                            h_tau_pt_3p_cuts_tpt->Fill(tau_0_p4->Pt(),weight);
-                            h_tau_eta_3p_cuts_tpt->Fill(tau_0_p4->Eta(),weight);
+                            h_tau_pt_3p_cuts_tpt->Fill(tau_0_p4->Pt(),tau_0_truth_isHadTau,weight);
+                            h_tau_eta_3p_cuts_tpt->Fill(tau_0_p4->Eta(),tau_0_truth_isHadTau,weight);
                             h_delta_R_taulep_3p_cuts_tpt->Fill(tau_0_p4->DeltaR(*muon_0_p4),weight);
                           }
 
@@ -1247,14 +1241,6 @@ void CLoop::Style(double lumFactor) {
 
     // Write histograms to a file
     // This needs to be done for each histogram
-    h_RunN_topo->Write();
-    h_RunN_topo_tpt->Write();
-
-    h_EventN_RN363738_topo->Write();
-    h_EventN_RN363738_topo_tpt->Write();
-
-    h_EventN_RN363910_topo->Write();
-    h_EventN_RN363910_topo_tpt->Write();
 
     h_trans_lep_mass_topo->Write();
     h_trans_lep_mass_topo_dphi_btag_iso_rnn_ptmu_omega_mreco->Write();

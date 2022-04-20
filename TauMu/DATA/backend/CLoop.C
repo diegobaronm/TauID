@@ -6,9 +6,6 @@
 
 void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 {
-    std::cout<<lumFactor<<std::endl;
-    std::cout<<z_sample<<std::endl;
-    std::cout<<key<<std::endl;
 //    In a ROOT session, you can do:
 //        root> .L CLoop.C
 //        root> CLoop t
@@ -41,7 +38,6 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     // book histograms
     Book(lumFactor);
     // end booking
-    std::cout<<"AFTER BOOK"<<std::endl;
     Long64_t nentries = fChain->GetEntriesFast();
 
     // if in fast mode only loop over 1% of the entries
@@ -70,7 +66,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
             }
         }*/
         // PYTHIA REWEIGHTING
-        /*if (z_sample==1){
+        if (z_sample==1){
             double zpt=truth_Z_p4->Pt()/1000;
             if(zpt>=40 & zpt<46){
                 z_w=0.995;
@@ -105,7 +101,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
             }else if(zpt>=151){
                 z_w=0.8;
             }
-        }*/
+        }
         /*if (z_sample==1){
             double zpt=truth_Z_p4->Pt()/1000;
             if (zpt>40 & zpt<80){
@@ -137,7 +133,6 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
         // fill histograms
         //cout << eventWeight;
         Fill(eventWeight, z_sample);
-        std::cout<<"AFTER FILL"<<std::endl;
         // end filling
     }
     key = key+".root";
