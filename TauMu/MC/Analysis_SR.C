@@ -407,7 +407,7 @@ void CLoop::Fill(double weight, int z_sample) {
       float ql=muon_0_q;
       float qtau=tau_0_q;
 
-      if (ql==qtau && angle<3*pi/4 && trigger_decision && lepton_id && trigger_match && abs(muon_0_p4->Eta())>=0.1 && abs(tau_0_p4->Eta())>=0.1) {
+      if (ql!=qtau && angle<3*pi/4 && trigger_decision && lepton_id && trigger_match && abs(muon_0_p4->Eta())>=0.1 && abs(tau_0_p4->Eta())>=0.1) {
 
         h_delta_phi_second_stage->Fill(angle,weight);
         //topology
@@ -1127,7 +1127,9 @@ void CLoop::Fill(double weight, int z_sample) {
                             if (tau_0_n_charged_tracks==3){
                               h_tau_matched_3p_topo_dphi_btag_iso_rnn_ptmu_omega_mreco_tpt->Fill(tau_0_truth_isHadTau,weight);
                             }
-                          }
+                          } else {std::cout<<"HELLOOOOOOOOOOOOOOOOOOOOOOOOOO"<<std::endl;
+                                  std::cout<<"HELLOOOOOOOOOOOOOOOOOOOOOOOOOO"<<std::endl;
+                                  std::cout<<"HELLOOOOOOOOOOOOOOOOOOOOOOOOOO"<<std::endl;}
                           if (inside) {
                             h_reco_mass_topo_dphi_btag_iso_rnn_ptmu_omega_mreco_tpt->Fill(reco_mass,weight);
                             h_lep_pt1_topo_dphi_btag_iso_rnn_ptmu_omega_mreco_tpt_inside->Fill(tau_0_p4->Pt(),weight);
