@@ -195,6 +195,12 @@ void CLoop::Book(double lumFactor) {
     h_trigger_1_pass_cuts = new TH1F("trigger_1_pass_cuts","Events where 1 elec fires the trigger",2,0,2);
     h_trigger_2_pass = new TH1F("trigger_2_pass","Events where 2 elecs fire the trigger",2,0,2);
     h_trigger_2_pass_cuts = new TH1F("trigger_2_pass_cuts","Events where 2 elecs fire the trigger",2,0,2);
+        
+    // TAU LEPTON EQUIVALENT
+    h_tau_pt_topo = new TH1F("tau_pt_topo","Transverse momentum of tau-equivalent",200,0,200);
+    h_tau_pt_topo_cuts = new TH1F("tau_pt_topo_cuts","Transverse momentum of tau-equivalent",200,0,200);
+    h_tau_eta_topo = new TH1F("tau_eta_topo","Eta angle tau-equivalent",50,-2.5,2.5);
+    h_tau_eta_topo_cuts = new TH1F("tau_eta_topo_cuts","Eta angle tau-equivalent",50,-2.5,2.5);
 }
 
 void CLoop::Fill(double weight, int z_sample) {
@@ -362,6 +368,14 @@ void CLoop::Fill(double weight, int z_sample) {
         h_ljet2_pt_topo->Fill(ljet_1_p4->Pt(),weight);
         h_ljet3_pt_topo->Fill(ljet_2_p4->Pt(),weight);
 
+        if(event_number%2==0){
+          h_tau_pt_topo->Fill(muon_1_p4->Pt(),weight);
+          h_tau_eta_topo->Fill(muon_1_p4->Eta(),weight);
+        } else{
+          h_tau_pt_topo->Fill(muon_0_p4->Pt(),weight);
+          h_tau_eta_topo->Fill(muon_0_p4->Eta(),weight);
+        }
+
         // ANGLE CUT
         if (cuts[0]==1){
           h_met_topo_dphi->Fill(met_reco_p4->Pt(),weight);
@@ -426,6 +440,14 @@ void CLoop::Fill(double weight, int z_sample) {
 
                     h_trigger_1_pass_cuts->Fill((trigger_match_1 | trigger_match_2),weight);
                     h_trigger_2_pass_cuts->Fill(trigger_match_12,weight);
+
+                    if(event_number%2==0){
+                      h_tau_pt_topo_cuts->Fill(muon_1_p4->Pt(),weight);
+                      h_tau_eta_topo_cuts->Fill(muon_1_p4->Eta(),weight);
+                    } else{
+                      h_tau_pt_topo_cuts->Fill(muon_0_p4->Pt(),weight);
+                      h_tau_eta_topo_cuts->Fill(muon_0_p4->Eta(),weight);
+                    }
 
                     if (Z_pt<100){
                       h_sum_pt_cuts_ZpTa->Fill(elec_0_p4->Pt()+elec_1_p4->Pt(),weight);
@@ -644,6 +666,11 @@ void CLoop::Style(double lumFactor) {
     h_trigger_1_pass_cuts->Write();
     h_trigger_2_pass->Write();
     h_trigger_2_pass_cuts->Write();
+
+    h_tau_pt_topo->Write();
+    h_tau_pt_topo_cuts->Write();
+    h_tau_eta_topo->Write();
+    h_tau_eta_topo_cuts->Write();
 }
 
 #endif // End header guard
