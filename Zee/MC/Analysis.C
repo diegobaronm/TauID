@@ -39,10 +39,107 @@ double del_phi(double phi_1, double phi_2){
     return delta;
 }
 
-
 void CLoop::Book(double lumFactor) {
     double pi=TMath::Pi();
 
+    // VARIABLES ONLY ONCE
+    h_RunN_topo = new TH1F("RunN_topo","Run number",94000,276000,370000);
+    h_RunN_topo_tpt = new TH1F("RunN_topo_tpt","Run number",94000,276000,370000);
+
+    h_EventN_RN358115_topo = new TH1F("EventN_RN358115_topo","Event number RN(358115)",100000,0,3.0e9);
+    h_EventN_RN358115_topo_tpt = new TH1F("EventN_RN358115_topo_tpt","Event number RN(358115)",100000,0,3.0e9);
+
+    h_EventN_RN359541_topo = new TH1F("EventN_RN359541_topo","Event number RN(359541)",100000,0,3.0e9);
+    h_EventN_RN359541_topo_tpt = new TH1F("EventN_RN359541_topo_tpt","Event number RN(359541)",100000,0,3.0e9);
+    //VARIABLES FOLLOWED AFTER EACH CUT
+    // pT light-jets
+    h_ljet1_pt_topo = new TH1F("ljet1_pt_topo","Light-jet 1 pT",200,0,200);
+    h_ljet1_pt_topo_cuts = new TH1F("ljet1_pt_topo_cuts","Light-jet 1 pT",200,0,200);
+    h_ljet1_pt_topo_cuts_tpt = new TH1F("ljet1_pt_topo_cuts_tpt","Light-jet 1 pT",200,0,200);
+
+    h_ljet2_pt_topo = new TH1F("ljet2_pt_topo","Light-jet 2 pT",200,0,200);
+    h_ljet2_pt_topo_cuts = new TH1F("ljet2_pt_topo_cuts","Light-jet 2 pT",200,0,200);
+    h_ljet2_pt_topo_cuts_tpt = new TH1F("ljet2_pt_topo_cuts_tpt","Light-jet 2 pT",200,0,200);
+
+    h_ljet3_pt_topo = new TH1F("ljet3_pt_topo","Light-jet 3 pT",200,0,200);
+    h_ljet3_pt_topo_cuts = new TH1F("ljet3_pt_topo_cuts","Light-jet 3 pT",200,0,200);
+    h_ljet3_pt_topo_cuts_tpt = new TH1F("ljet3_pt_topo_cuts_tpt","Light-jet 3 pT",200,0,200);
+
+    // Histograms for lepton 1
+    //pT
+    h_lep1_pt_topo = new TH1F("lep1_pt_topo","Transverse momentum of lep1",200,0,200);
+    h_lep1_pt_topo_dphi = new TH1F("lep1_pt_topo_dphi","Transverse momentum of lep1",200,0,200);
+    h_lep1_pt_topo_dphi_btag = new TH1F("lep1_pt_topo_dphi_btag","Transverse momentum of lep1",200,0,200);
+    h_lep1_pt_topo_dphi_btag_iso = new TH1F("lep1_pt_topo_dphi_btag_iso","Transverse momentum of lep1",200,0,200);
+    h_lep1_pt_topo_dphi_btag_iso_pt1 = new TH1F("lep1_pt_topo_dphi_btag_iso_pt1","Transverse momentum of lep1",200,0,200);
+    h_lep1_pt_topo_dphi_btag_iso_pt1_pt2 = new TH1F("lep1_pt_topo_dphi_btag_iso_pt1_pt2","Transverse momentum of lep1",200,0,200);
+    h_lep1_pt_topo_dphi_btag_iso_pt1_pt2_mass = new TH1F("lep1_pt_topo_dphi_btag_iso_pt1_pt2_mass","Transverse momentum of lep1",200,0,200);
+    h_lep1_pt_topo_dphi_btag_iso_pt1_pt2_mass_ptl = new TH1F("lep1_pt_topo_dphi_btag_iso_pt1_pt2_mass_ptl","Transverse momentum of lep1",200,0,200);
+    h_lep1_pt_topo_dphi_btag_iso_pt2_mass_ptl = new TH1F("lep1_pt_topo_dphi_btag_iso_pt2_mass_ptl","Transverse momentum of lep1",200,0,200);
+
+    h_lep1_eta_cuts = new TH1F("lep1_eta_cuts","Eta of light lepton 1 ",50,-2.5,2.5);
+    h_lep1_eta_cuts_ptl = new TH1F("lep1_eta_cuts_ptl","Eta of light lepton 1 ",50,-2.5,2.5);
+
+    //phi
+    h_lep1_phi_topo= new TH1F("lep1_phi_topo","Lepton 1 phi angle",64,-3.2,3.2);
+    h_lep1_phi_cuts= new TH1F("lep1_phi_cuts","Lepton 1 phi angle",64,-3.2,3.2);
+
+    // Histograms for lepton 2
+    h_lep2_pt_topo = new TH1F("lep2_pt_topo","Transverse momentum of lep2",200,0,200);
+    h_lep2_pt_topo_dphi = new TH1F("lep2_pt_topo_dphi","Transverse momentum of lep2",200,0,200);
+    h_lep2_pt_topo_dphi_btag = new TH1F("lep2_pt_topo_dphi_btag","Transverse momentum of lep2",200,0,200);
+    h_lep2_pt_topo_dphi_btag_iso = new TH1F("lep2_pt_topo_dphi_btag_iso","Transverse momentum of lep2",200,0,200);
+    h_lep2_pt_topo_dphi_btag_iso_pt1 = new TH1F("lep2_pt_topo_dphi_btag_iso_pt1","Transverse momentum of lep2",200,0,200);
+    h_lep2_pt_topo_dphi_btag_iso_pt1_pt2 = new TH1F("lep2_pt_topo_dphi_btag_iso_pt1_pt2","Transverse momentum of lep2",200,0,200);
+    h_lep2_pt_topo_dphi_btag_iso_pt1_pt2_mass = new TH1F("lep2_pt_topo_dphi_btag_iso_pt1_pt2_mass","Transverse momentum of lep2",200,0,200);
+    h_lep2_pt_topo_dphi_btag_iso_pt1_pt2_mass_ptl = new TH1F("lep2_pt_topo_dphi_btag_iso_pt1_pt2_mass_ptl","Transverse momentum of lep2",200,0,200);
+    h_lep2_pt_topo_dphi_btag_iso_pt1_mass_ptl = new TH1F("lep2_pt_topo_dphi_btag_iso_pt1_mass_ptl","Transverse momentum of lep2",200,0,200);
+
+    h_lep2_eta_cuts = new TH1F("lep2_eta_cuts","Eta of light lepton 2 ",50,-2.5,2.5);
+    h_lep2_eta_cuts_ptl = new TH1F("lep2_eta_cuts_ptl","Eta of light lepton 2 ",50,-2.5,2.5);
+
+    h_delta_R_leplep_cuts = new TH1F("delta_R_leplep_cuts","DeltaR lep-lep ",30,0,1.5);
+    h_delta_R_leplep_cuts_ptl = new TH1F("delta_R_leplep_cuts_ptl","DeltaR lep-lep ",30,0,1.5);
+
+    // Histograms for sum lepton pt
+    h_sumlep_pt_topo = new TH1F("sumlep_pt_topo","Sum pT",400,0,400);
+    h_sumlep_pt_topo_dphi = new TH1F("sumlep_pt_topo_dphi","Sum pT",400,0,400);
+    h_sumlep_pt_topo_dphi_btag = new TH1F("sumlep_pt_topo_dphi_btag","Sum pT",400,0,400);
+    h_sumlep_pt_topo_dphi_btag_iso = new TH1F("sumlep_pt_topo_dphi_btag_iso","Sum pT",400,0,400);
+    h_sumlep_pt_topo_dphi_btag_iso_pt1 = new TH1F("sumlep_pt_topo_dphi_btag_iso_pt1","Sum pT",400,0,400);
+    h_sumlep_pt_topo_dphi_btag_iso_pt1_pt2 = new TH1F("sumlep_pt_topo_dphi_btag_iso_pt1_pt2","Sum pT",400,0,400);
+    h_sumlep_pt_topo_dphi_btag_iso_pt1_pt2_mass = new TH1F("sumlep_pt_topo_dphi_btag_iso_pt1_pt2_mass","Sum pT",400,0,400);
+    h_sumlep_pt_topo_dphi_btag_iso_pt1_pt2_mass_ptl = new TH1F("sumlep_pt_topo_dphi_btag_iso_pt1_pt2_mass_ptl","Sum pT",400,0,400);
+    h_sumlep_pt_topo_dphi_btag_iso_pt1_mass_ptl = new TH1F("sumlep_pt_topo_dphi_btag_iso_pt1_mass_ptl","Sum pT",400,0,400);
+
+    h_sum_pt_topo_ZpTa = new TH1F("sum_pt_pt_topo_ZpTa","Sum of pT ",400,0,400);
+    h_sum_pt_topo_ZpTb = new TH1F("sum_pt_pt_topo_ZpTb","Sum of pT ",400,0,400);
+    h_sum_pt_topo_ZpTc = new TH1F("sum_pt_pt_topo_ZpTc","Sum of pT ",400,0,400);
+
+    h_sum_pt_cuts_ZpTa = new TH1F("sum_pt_pt_cuts_ZpTa","Sum of pT ",400,0,400);
+    h_sum_pt_cuts_ZpTb = new TH1F("sum_pt_pt_cuts_ZpTb","Sum of pT ",400,0,400);
+    h_sum_pt_cuts_ZpTc = new TH1F("sum_pt_pt_cuts_ZpTc","Sum of pT ",400,0,400);
+
+    h_sum_pt_cuts_ptl_ZpTa = new TH1F("sum_pt_pt_cuts_ptl_ZpTa","Sum of pT ",400,0,400);
+    h_sum_pt_cuts_ptl_ZpTb = new TH1F("sum_pt_pt_cuts_ptl_ZpTb","Sum of pT ",400,0,400);
+    h_sum_pt_cuts_ptl_ZpTc = new TH1F("sum_pt_pt_cuts_ptl_ZpTc","Sum of pT ",400,0,400);
+
+    h_lep2_phi_topo= new TH1F("lep2_phi_topo","Lepton 2 phi",64,-3.2,3.2);
+    h_lep2_phi_cuts= new TH1F("lep2_phi_cuts","Lepton 2 phi",64,-3.2,3.2);
+
+    // MET Histograms
+    h_met_topo = new TH1F("MET_topo","Missing Transverse momentum",300,0,300);
+    h_met_topo_dphi = new TH1F("MET_topo_dphi","Missing Transverse momentum",300,0,300);
+    h_met_topo_dphi_btag = new TH1F("MET_topo_dphi_btag","Missing Transverse momentum",300,0,300);
+    h_met_topo_dphi_btag_iso = new TH1F("MET_topo_dphi_btag_iso","Missing Transverse momentum",300,0,300);
+    h_met_topo_dphi_btag_iso_pt1 = new TH1F("MET_topo_dphi_btag_iso_pt1","Missing Transverse momentum",300,0,300);
+    h_met_topo_dphi_btag_iso_pt1_pt2 = new TH1F("MET_topo_dphi_btag_iso_pt1_pt2","Missing Transverse momentum",300,0,300);
+    h_met_topo_dphi_btag_iso_pt1_pt2_mass = new TH1F("MET_topo_dphi_btag_iso_pt1_pt2_mass","Missing Transverse momentum",300,0,300);
+    h_met_topo_dphi_btag_iso_pt1_pt2_mass_ptl = new TH1F("MET_topo_dphi_btag_iso_pt1_pt2_mass_ptl","Missing Transverse momentum",300,0,300);
+
+    // Invariant mass histograms
+
+    // inv histos
     h_inv_mass_topo = new TH1F("inv_mass_topo","Invariant mass",300,0,300);
     h_inv_mass_topo_dphi = new TH1F("inv_mass_topo_dphi","Invariant mass",300,0,300);
     h_inv_mass_topo_dphi_btag = new TH1F("h_inv_mass_topo_dphi_btag","Invariant mass",300,0,300);
@@ -53,196 +150,68 @@ void CLoop::Book(double lumFactor) {
     h_inv_mass_topo_dphi_btag_iso_pt1_pt2_mass_ptl = new TH1F("h_inv_mass_topo_dphi_btag_iso_pt1_pt2_mass_ptl","Invariant mass",300,0,300);
     h_inv_mass_topo_dphi_btag_iso_pt1_pt2_ptl = new TH1F("h_inv_mass_topo_dphi_btag_iso_pt1_pt2_ptl","Invariant mass",300,0,300);
 
+    if (lumFactor!=1)
+    {
+      h_Z_pt_truth_topo = new TH1F("Z_pt_truth_topo","Z_truth boson transverse momentum inside",400,0,400);
+      h_Z_pt_truth_cuts = new TH1F("Z_pt_truth_cuts","Z_truth boson transverse momentum inside",400,0,400);
+      h_Z_pt_truth_cuts_ptl = new TH1F("Z_pt_truth_cuts_ptl","Z_truth boson transverse momentum inside",400,0,400);
+    }
+
+    // Jet Number Histograms
+    h_jet_n_topo = new TH1F("jet_n_topo","Number of jets",10,-1,9);
+    h_jet_n_topo_dphi_btag_iso_pt1_pt2_mass = new TH1F("jet_n_topo_dphi_btag_iso_pt1_pt2_mass","Number of jets",10,-1,9);
+    h_jet_n_topo_dphi_btag_iso_pt1_pt2_mass_ptl = new TH1F("jet_n_topo_dphi_btag_iso_pt1_pt2_mass_ptl","Number of jets",10,-1,9);
+
+    h_b_tag_topo = new TH1F("b_tag_topo","b taging variable",2,0,2);
+    h_b_tag_topo_dphi_iso_pt1_pt2_mass_ptl = new TH1F("b_tag_topo_dphi_iso_pt1_pt2_mass_ptl","b taging variable",2,0,2);
+
+
+    // Isolation variables Histograms
+    h_elec_0_isolation_topo = new TH1F("elec_0_isolation_topo","lepton 1 isolation",2,0,2);
+    h_elec_0_isolation_topo_dphi_btag_pt1_pt2_mass_ptl = new TH1F("elec_0_isolation_topo_dphi_btag_pt1_pt2_mass_ptl","lepton 1 isolation",2,0,2);
+
+    h_elec_1_isolation_topo = new TH1F("elec_1_isolation_topo","lepton 2 isolation",2,0,2);
+    h_elec_1_isolation_topo_dphi_btag_pt1_pt2_mass_ptl = new TH1F("elec_1_isolation_topo_dphi_btag_pt1_pt2_mass_ptl","lepton 2 isolation",2,0,2);
+
+    h_Z_pt_reco_topo = new TH1F("Z_pt_topo","Z boson transverse momentum",400,0,400);
+    h_Z_pt_reco_cuts = new TH1F("Z_pt_cuts","Z boson transverse momentum",400,0,400);
+    h_Z_pt_reco_cuts_ptl = new TH1F("Z_pt_cuts_ptl","Z boson transverse momentum",400,0,400);
+
+    h_delta_phi= new TH1F("delta_phi","Delta phi leptons",32,0,3.2);
+    h_delta_phi_topo= new TH1F("delta_phi_topo","Delta phi leptons",32,0,3.2);
+    h_delta_phi_cuts= new TH1F("delta_phi_cuts","Delta phi leptons",32,0,3.2);
+    h_delta_phi_cuts_ptl= new TH1F("delta_phi_cuts_ptl","Delta phi leptons",32,0,3.2);
+    h_delta_phi_cuts_butphi= new TH1F("delta_phi_cuts_butphi","Delta phi leptons",32,0,3.2);
+
     //MJ BG DISCRIMINATION VARIABLES
+    h_ratio_ptjet_zpt_topo = new TH1F("ratio_ptjet_zpt_topo","ratio_ptjet_zpt",40,0,4);
+    h_ratio_lpt_tpt_topo = new TH1F("ratio_lpt_tpt_topo","ratio_lpt_tpt",40,0,4);
+    h_ratio_ptjet_zpt_cuts = new TH1F("ratio_ptjet_zpt_cuts","ratio_ptjet_zpt",40,0,4);
     h_ratio_lpt_tpt_cuts = new TH1F("ratio_lpt_tpt_cuts","ratio_lpt_tpt",40,0,4);
+    h_ratio_ptjet_zpt_cuts_ptl = new TH1F("ratio_ptjet_zpt_cuts_ptl","ratio_ptjet_zpt",40,0,4);
     h_ratio_lpt_tpt_cuts_ptl = new TH1F("ratio_lpt_tpt_cuts_ptl","ratio_lpt_tpt",40,0,4);
-
-    h_yield_sys_cuts_elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13 = new TH1F("yield_sys_cuts_elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13 = new TH1F("yield_sys_cuts_elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose = new TH1F("yield_sys_cuts_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight = new TH1F("yield_sys_cuts_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose = new TH1F("yield_sys_cuts_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight = new TH1F("yield_sys_cuts_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk = new TH1F("yield_sys_cuts_elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk = new TH1F("yield_sys_cuts_elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight = new TH1F("yield_sys_cuts_elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight = new TH1F("yield_sys_cuts_elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight","Systematic related yield",40,0,4);
-
-    h_yield_sys_cuts_elec_1_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13 = new TH1F("yield_sys_cuts_elec_1_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_elec_1_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13 = new TH1F("yield_sys_cuts_elec_1_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose = new TH1F("yield_sys_cuts_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight = new TH1F("yield_sys_cuts_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose = new TH1F("yield_sys_cuts_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight = new TH1F("yield_sys_cuts_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_elec_1_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk = new TH1F("yield_sys_cuts_elec_1_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_elec_1_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk = new TH1F("yield_sys_cuts_elec_1_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_elec_1_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight = new TH1F("yield_sys_cuts_elec_1_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_elec_1_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight = new TH1F("yield_sys_cuts_elec_1_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight","Systematic related yield",40,0,4);
-
-    h_yield_sys_cuts_ptl_elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13 = new TH1F("yield_sys_cuts_ptl_elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13 = new TH1F("yield_sys_cuts_ptl_elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose = new TH1F("yield_sys_cuts_ptl_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight = new TH1F("yield_sys_cuts_ptl_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose = new TH1F("yield_sys_cuts_ptl_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight = new TH1F("yield_sys_cuts_ptl_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk = new TH1F("yield_sys_cuts_ptl_elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk = new TH1F("yield_sys_cuts_ptl_elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight = new TH1F("yield_sys_cuts_ptl_elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight = new TH1F("yield_sys_cuts_ptl_elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight","Systematic related yield",40,0,4);
-
-    h_yield_sys_cuts_ptl_elec_1_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13 = new TH1F("yield_sys_cuts_ptl_elec_1_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_elec_1_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13 = new TH1F("yield_sys_cuts_ptl_elec_1_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose = new TH1F("yield_sys_cuts_ptl_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight = new TH1F("yield_sys_cuts_ptl_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose = new TH1F("yield_sys_cuts_ptl_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight = new TH1F("yield_sys_cuts_ptl_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_elec_1_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk = new TH1F("yield_sys_cuts_ptl_elec_1_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_elec_1_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk = new TH1F("yield_sys_cuts_ptl_elec_1_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_elec_1_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight = new TH1F("yield_sys_cuts_ptl_elec_1_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_elec_1_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight = new TH1F("yield_sys_cuts_ptl_elec_1_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight","Systematic related yield",40,0,4);
-
-    h_yield_sys_cuts_ptl_elecs_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13 = new TH1F("yield_sys_cuts_ptl_elecs_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_elecs_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13 = new TH1F("yield_sys_cuts_ptl_elecs_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_elecs_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose = new TH1F("yield_sys_cuts_ptl_elecs_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_elecs_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight = new TH1F("yield_sys_cuts_ptl_elecs_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_elecs_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose = new TH1F("yield_sys_cuts_ptl_elecs_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_elecs_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight = new TH1F("yield_sys_cuts_ptl_elecs_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_elecs_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk = new TH1F("yield_sys_cuts_ptl_elecs_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_elecs_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk = new TH1F("yield_sys_cuts_ptl_elecs_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_elecs_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight = new TH1F("yield_sys_cuts_ptl_elecs_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_elecs_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight = new TH1F("yield_sys_cuts_ptl_elecs_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight","Systematic related yield",40,0,4);
-
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_0_1down_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_B_0_1down_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_0_1down_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_B_0_1down_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_0_1up_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_B_0_1up_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_0_1up_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_B_0_1up_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_1_1down_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_B_1_1down_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_1_1down_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_B_1_1down_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_1_1up_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_B_1_1up_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_1_1up_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_B_1_1up_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_2_1down_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_B_2_1down_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_2_1down_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_B_2_1down_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_2_1up_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_B_2_1up_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_2_1up_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_B_2_1up_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_0_1down_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_C_0_1down_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_0_1down_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_C_0_1down_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_0_1up_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_C_0_1up_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_0_1up_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_C_0_1up_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_1_1down_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_C_1_1down_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_1_1down_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_C_1_1down_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_1_1up_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_C_1_1up_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_1_1up_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_C_1_1up_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_2_1down_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_C_2_1down_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_2_1down_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_C_2_1down_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_2_1up_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_C_2_1up_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_2_1up_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_C_2_1up_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_3_1down_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_C_3_1down_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_3_1down_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_C_3_1down_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_3_1up_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_C_3_1up_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_3_1up_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_C_3_1up_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_0_1down_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_Light_0_1down_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_0_1down_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_Light_0_1down_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_0_1up_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_Light_0_1up_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_0_1up_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_Light_0_1up_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_1_1down_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_Light_1_1down_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_1_1down_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_Light_1_1down_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_1_1up_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_Light_1_1up_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_1_1up_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_Light_1_1up_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_2_1down_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_Light_2_1down_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_2_1down_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_Light_2_1down_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_2_1up_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_Light_2_1up_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_2_1up_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_Light_2_1up_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_3_1down_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_Light_3_1down_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_3_1down_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_Light_3_1down_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_3_1up_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_Light_3_1up_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_3_1up_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_Eigen_Light_3_1up_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_extrapolation_1down_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_extrapolation_1down_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_extrapolation_1down_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_extrapolation_1down_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_extrapolation_1up_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_extrapolation_1up_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_extrapolation_1up_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_extrapolation_1up_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_extrapolation_from_charm_1down_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_extrapolation_from_charm_1down_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_extrapolation_from_charm_1down_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_extrapolation_from_charm_1down_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_extrapolation_from_charm_1up_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_extrapolation_from_charm_1up_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_FT_EFF_extrapolation_from_charm_1up_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_jet_FT_EFF_extrapolation_from_charm_1up_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_JET_JvtEfficiency_1down_central_jets_global_effSF_JVT = new TH1F("yield_sys_cuts_jet_JET_JvtEfficiency_1down_central_jets_global_effSF_JVT","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_JET_JvtEfficiency_1down_central_jets_global_ineffSF_JVT = new TH1F("yield_sys_cuts_jet_JET_JvtEfficiency_1down_central_jets_global_ineffSF_JVT","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_JET_JvtEfficiency_1up_central_jets_global_effSF_JVT = new TH1F("yield_sys_cuts_jet_JET_JvtEfficiency_1up_central_jets_global_effSF_JVT","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_JET_JvtEfficiency_1up_central_jets_global_ineffSF_JVT = new TH1F("yield_sys_cuts_jet_JET_JvtEfficiency_1up_central_jets_global_ineffSF_JVT","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_JET_fJvtEfficiency_1down_forward_jets_global_effSF_JVT = new TH1F("yield_sys_cuts_jet_JET_fJvtEfficiency_1down_forward_jets_global_effSF_JVT","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_JET_fJvtEfficiency_1down_forward_jets_global_ineffSF_JVT = new TH1F("yield_sys_cuts_jet_JET_fJvtEfficiency_1down_forward_jets_global_ineffSF_JVT","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_JET_fJvtEfficiency_1up_forward_jets_global_effSF_JVT = new TH1F("yield_sys_cuts_jet_JET_fJvtEfficiency_1up_forward_jets_global_effSF_JVT","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_jet_JET_fJvtEfficiency_1up_forward_jets_global_ineffSF_JVT = new TH1F("yield_sys_cuts_jet_JET_fJvtEfficiency_1up_forward_jets_global_ineffSF_JVT","Systematic related yield",40,0,4);
-
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_0_1down_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_0_1down_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_0_1down_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_0_1down_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_0_1up_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_0_1up_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_0_1up_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_0_1up_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_1_1down_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_1_1down_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_1_1down_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_1_1down_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_1_1up_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_1_1up_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_1_1up_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_1_1up_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_2_1down_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_2_1down_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_2_1down_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_2_1down_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_2_1up_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_2_1up_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_2_1up_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_2_1up_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_0_1down_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_0_1down_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_0_1down_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_0_1down_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_0_1up_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_0_1up_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_0_1up_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_0_1up_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_1_1down_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_1_1down_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_1_1down_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_1_1down_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_1_1up_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_1_1up_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_1_1up_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_1_1up_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_2_1down_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_2_1down_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_2_1down_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_2_1down_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_2_1up_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_2_1up_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_2_1up_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_2_1up_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_3_1down_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_3_1down_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_3_1down_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_3_1down_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_3_1up_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_3_1up_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_3_1up_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_3_1up_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_0_1down_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_0_1down_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_0_1down_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_0_1down_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_0_1up_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_0_1up_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_0_1up_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_0_1up_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_1_1down_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_1_1down_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_1_1down_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_1_1down_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_1_1up_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_1_1up_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_1_1up_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_1_1up_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_2_1down_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_2_1down_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_2_1down_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_2_1down_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_2_1up_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_2_1up_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_2_1up_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_2_1up_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_3_1down_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_3_1down_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_3_1down_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_3_1down_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_3_1up_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_3_1up_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_3_1up_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_3_1up_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_1down_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_1down_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_1down_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_1down_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_1up_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_1up_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_1up_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_1up_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_from_charm_1down_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_from_charm_1down_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_from_charm_1down_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_from_charm_1down_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_from_charm_1up_global_effSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_from_charm_1up_global_effSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_from_charm_1up_global_ineffSF_MV2c10_FixedCutBEff_85 = new TH1F("yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_from_charm_1up_global_ineffSF_MV2c10_FixedCutBEff_85","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_JET_JvtEfficiency_1down_central_jets_global_effSF_JVT = new TH1F("yield_sys_cuts_ptl_jet_JET_JvtEfficiency_1down_central_jets_global_effSF_JVT","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_JET_JvtEfficiency_1down_central_jets_global_ineffSF_JVT = new TH1F("yield_sys_cuts_ptl_jet_JET_JvtEfficiency_1down_central_jets_global_ineffSF_JVT","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_JET_JvtEfficiency_1up_central_jets_global_effSF_JVT = new TH1F("yield_sys_cuts_ptl_jet_JET_JvtEfficiency_1up_central_jets_global_effSF_JVT","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_JET_JvtEfficiency_1up_central_jets_global_ineffSF_JVT = new TH1F("yield_sys_cuts_ptl_jet_JET_JvtEfficiency_1up_central_jets_global_ineffSF_JVT","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_JET_fJvtEfficiency_1down_forward_jets_global_effSF_JVT = new TH1F("yield_sys_cuts_ptl_jet_JET_fJvtEfficiency_1down_forward_jets_global_effSF_JVT","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_JET_fJvtEfficiency_1down_forward_jets_global_ineffSF_JVT = new TH1F("yield_sys_cuts_ptl_jet_JET_fJvtEfficiency_1down_forward_jets_global_ineffSF_JVT","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_JET_fJvtEfficiency_1up_forward_jets_global_effSF_JVT = new TH1F("yield_sys_cuts_ptl_jet_JET_fJvtEfficiency_1up_forward_jets_global_effSF_JVT","Systematic related yield",40,0,4);
-    h_yield_sys_cuts_ptl_jet_JET_fJvtEfficiency_1up_forward_jets_global_ineffSF_JVT = new TH1F("yield_sys_cuts_ptl_jet_JET_fJvtEfficiency_1up_forward_jets_global_ineffSF_JVT","Systematic related yield",40,0,4);
-
+    // TRIGGER STATISTICS
+    h_trigger_1_pass = new TH1F("trigger_1_pass","Events where 1 elec fires the trigger",2,0,2);
+    h_trigger_1_pass_cuts = new TH1F("trigger_1_pass_cuts","Events where 1 elec fires the trigger",2,0,2);
+    h_trigger_2_pass = new TH1F("trigger_2_pass","Events where 2 elecs fire the trigger",2,0,2);
+    h_trigger_2_pass_cuts = new TH1F("trigger_2_pass_cuts","Events where 2 elecs fire the trigger",2,0,2);
+        
+    // TAU LEPTON EQUIVALENT
+    h_tau_pt_topo = new TH1F("tau_pt_topo","Transverse momentum of tau-equivalent",200,0,200);
+    h_tau_pt_topo_cuts = new TH1F("tau_pt_topo_cuts","Transverse momentum of tau-equivalent",200,0,200);
+    h_tau_eta_topo = new TH1F("tau_eta_topo","Eta angle tau-equivalent",50,-2.5,2.5);
+    h_tau_eta_topo_cuts = new TH1F("tau_eta_topo_cuts","Eta angle tau-equivalent",50,-2.5,2.5);
 }
 
 void CLoop::Fill(double weight, int z_sample) {
     double pi=TMath::Pi();
-    if (n_electrons==2 && useEvent==1){
+    if (n_electrons==2){
       //angles
       double angle_l_MET=del_phi(elec_0_p4->Phi(),met_reco_p4->Phi());
       double angle_tau_MET=del_phi(elec_1_p4->Phi(),met_reco_p4->Phi());
       double angle=del_phi(elec_1_p4->Phi(),elec_0_p4->Phi());
+
+      h_delta_phi->Fill(angle,weight);
 
       bool trigger_decision= false;
       bool trigger_match= false;
@@ -271,6 +240,9 @@ void CLoop::Fill(double weight, int z_sample) {
         trigger_match = trigger_match_1 | trigger_match_2 | trigger_match_12;
       }
 
+      h_trigger_1_pass->Fill((trigger_match_1 | trigger_match_2),weight);
+      h_trigger_2_pass->Fill(trigger_match_12,weight);
+
       bool elec_id = elec_0_id_tight && elec_1_id_tight;
 
       float q_mu0=elec_0_q;
@@ -298,6 +270,10 @@ void CLoop::Fill(double weight, int z_sample) {
         Z_pt=sqrt(Z_pt_x*Z_pt_x+Z_pt_y*Z_pt_y);
         if (z_sample==0){
             truth_z_pt=Z_pt;
+        }
+        h_Z_pt_reco_topo->Fill(Z_pt,weight);
+        if (weight!=1){
+          h_Z_pt_truth_topo->Fill(truth_z_pt,weight);
         }
         r_jpt_zpt=ljet_0_p4->Pt()/Z_pt;
 
@@ -334,216 +310,189 @@ void CLoop::Fill(double weight, int z_sample) {
           }
         }
 
+        vector<int> c_phi={0,1,1,1,1,1,1};
+        vector<int> c_btag={1,0,1,1,1,1,1};
+        vector<int> c_iso={1,1,0,1,1,1,1};
+        vector<int> c_pt1={1,1,1,0,1,1,1};
+        vector<int> c_pt2={1,1,1,1,0,1,1};
+        vector<int> c_mass={1,1,1,1,1,0,1};
+        vector<int> c_ptl={1,1,1,1,1,1,0};
+        vector<int> c_all={1,1,1,1,1,1,1};
+
+        if (cuts==c_phi||cuts==c_all) {
+          h_delta_phi_cuts_butphi->Fill(angle,weight);
+        }
+        if ((cuts==c_btag||cuts==c_all) && n_jets!=0) {
+          h_b_tag_topo_dphi_iso_pt1_pt2_mass_ptl->Fill(n_bjets_MV2c10_FixedCutBEff_85,weight);
+        }
+        if (cuts==c_iso||cuts==c_all) {
+          h_elec_0_isolation_topo_dphi_btag_pt1_pt2_mass_ptl->Fill(elec_0_iso_FCTight,weight);
+          h_elec_1_isolation_topo_dphi_btag_pt1_pt2_mass_ptl->Fill(elec_1_iso_FCTight,weight);
+        }
+        if (cuts==c_pt1||cuts==c_all) {
+          h_lep1_pt_topo_dphi_btag_iso_pt2_mass_ptl->Fill(elec_0_p4->Pt(),weight);
+        }
+        if (cuts==c_pt2||cuts==c_all) {
+          h_lep2_pt_topo_dphi_btag_iso_pt1_mass_ptl->Fill(elec_1_p4->Pt(),weight);
+        }
+        if (cuts==c_mass||cuts==c_all) {
+          h_inv_mass_topo_dphi_btag_iso_pt1_pt2_ptl->Fill(inv_mass,weight);
+        }
+
+        //  Filling histos
+        h_RunN_topo->Fill(run_number,weight);
+        if(run_number==358115){h_EventN_RN358115_topo->Fill(event_number,weight);}
+        if(run_number==359541){h_EventN_RN359541_topo->Fill(event_number,weight);}
+        h_jet_n_topo->Fill(n_jets, weight);
+        h_b_tag_topo->Fill(n_bjets_MV2c10_FixedCutBEff_85,weight);
+        h_elec_0_isolation_topo->Fill(elec_0_iso_FCTight,weight);
+        h_elec_1_isolation_topo->Fill(elec_1_iso_FCTight,weight);
+        h_met_topo->Fill(met_reco_p4->Pt(),weight);
+        h_lep1_pt_topo->Fill(elec_0_p4->Pt(),weight);
+        h_lep2_pt_topo->Fill(elec_1_p4->Pt(),weight);
+        h_sumlep_pt_topo->Fill(elec_0_p4->Pt()+elec_1_p4->Pt(),weight);
+        h_lep1_phi_topo->Fill(elec_0_p4->Phi(),weight);
+        h_lep2_phi_topo->Fill(elec_1_p4->Phi(),weight);
+        h_delta_phi_topo->Fill(angle,weight);
+        if (Z_pt<100){
+          h_sum_pt_topo_ZpTa->Fill(elec_0_p4->Pt()+elec_1_p4->Pt(),weight);
+        } if (Z_pt>100 && Z_pt<150){
+          h_sum_pt_topo_ZpTb->Fill(elec_0_p4->Pt()+elec_1_p4->Pt(),weight);
+        } if (Z_pt>150) {
+          h_sum_pt_topo_ZpTc->Fill(elec_0_p4->Pt()+elec_1_p4->Pt(),weight);
+        }
         h_inv_mass_topo->Fill(inv_mass,weight);
+        h_ratio_ptjet_zpt_topo->Fill(r_jpt_zpt,weight);
+        h_ratio_lpt_tpt_topo->Fill(r_lpt_tpt,weight);
+        h_ljet1_pt_topo->Fill(ljet_0_p4->Pt(),weight);
+        h_ljet2_pt_topo->Fill(ljet_1_p4->Pt(),weight);
+        h_ljet3_pt_topo->Fill(ljet_2_p4->Pt(),weight);
+
+        if(event_number%2==0){
+          h_tau_pt_topo->Fill(elec_1_p4->Pt(),weight);
+          h_tau_eta_topo->Fill(elec_1_p4->Eta(),weight);
+        } else{
+          h_tau_pt_topo->Fill(elec_0_p4->Pt(),weight);
+          h_tau_eta_topo->Fill(elec_0_p4->Eta(),weight);
+        }
 
         // ANGLE CUT
         if (cuts[0]==1){
+          h_met_topo_dphi->Fill(met_reco_p4->Pt(),weight);
+          h_lep1_pt_topo_dphi->Fill(elec_0_p4->Pt(),weight);
+          h_lep2_pt_topo_dphi->Fill(elec_1_p4->Pt(),weight);
+          h_sumlep_pt_topo_dphi->Fill(elec_0_p4->Pt()+elec_1_p4->Pt(),weight);
           h_inv_mass_topo_dphi->Fill(inv_mass,weight);
 
           // B TAGGING CUT
           if (cuts[1]==1 || n_jets==0) {
+            h_met_topo_dphi_btag->Fill(met_reco_p4->Pt(),weight);
+            h_lep1_pt_topo_dphi_btag->Fill(elec_0_p4->Pt(),weight);
+            h_lep2_pt_topo_dphi_btag->Fill(elec_1_p4->Pt(),weight);
+            h_sumlep_pt_topo_dphi_btag->Fill(elec_0_p4->Pt()+elec_1_p4->Pt(),weight);
             h_inv_mass_topo_dphi_btag->Fill(inv_mass,weight);
 
             // ISOLATION CUT
             if (cuts[2]==1) {
+              h_met_topo_dphi_btag_iso->Fill(met_reco_p4->Pt(),weight);
+              h_lep1_pt_topo_dphi_btag_iso->Fill(elec_0_p4->Pt(),weight);
+              h_lep2_pt_topo_dphi_btag_iso->Fill(elec_1_p4->Pt(),weight);
+              h_sumlep_pt_topo_dphi_btag_iso->Fill(elec_0_p4->Pt()+elec_1_p4->Pt(),weight);
               h_inv_mass_topo_dphi_btag_iso->Fill(inv_mass,weight);
 
               // pT 1 CUT
               if (cuts[3]==1) {
+                h_met_topo_dphi_btag_iso_pt1->Fill(met_reco_p4->Pt(),weight);
+                h_lep1_pt_topo_dphi_btag_iso_pt1->Fill(elec_0_p4->Pt(),weight);
+                h_lep2_pt_topo_dphi_btag_iso_pt1->Fill(elec_1_p4->Pt(),weight);
+                h_sumlep_pt_topo_dphi_btag_iso_pt1->Fill(elec_0_p4->Pt()+elec_1_p4->Pt(),weight);
                 h_inv_mass_topo_dphi_btag_iso_pt1->Fill(inv_mass,weight);
 
                 // pT 2 CUT
                 if (cuts[4]==1) {
+                  h_met_topo_dphi_btag_iso_pt1_pt2->Fill(met_reco_p4->Pt(),weight);
+                  h_lep1_pt_topo_dphi_btag_iso_pt1_pt2->Fill(elec_0_p4->Pt(),weight);
+                  h_lep2_pt_topo_dphi_btag_iso_pt1_pt2->Fill(elec_1_p4->Pt(),weight);
+                  h_sumlep_pt_topo_dphi_btag_iso_pt1_pt2->Fill(elec_0_p4->Pt()+elec_1_p4->Pt(),weight);
                   h_inv_mass_topo_dphi_btag_iso_pt1_pt2->Fill(inv_mass,weight);
 
                     // INV MASS CUT
                   if (cuts[5]==1) {
+                    h_jet_n_topo_dphi_btag_iso_pt1_pt2_mass->Fill(n_jets, weight);
+                    h_met_topo_dphi_btag_iso_pt1_pt2_mass->Fill(met_reco_p4->Pt(),weight);
+                    h_lep1_pt_topo_dphi_btag_iso_pt1_pt2_mass->Fill(elec_0_p4->Pt(),weight);
+                    h_lep2_pt_topo_dphi_btag_iso_pt1_pt2_mass->Fill(elec_1_p4->Pt(),weight);
+                    h_sumlep_pt_topo_dphi_btag_iso_pt1_pt2_mass->Fill(elec_0_p4->Pt()+elec_1_p4->Pt(),weight);
                     h_inv_mass_topo_dphi_btag_iso_pt1_pt2_mass->Fill(inv_mass,weight);
 
                     h_ratio_lpt_tpt_cuts->Fill(r_lpt_tpt,weight);
-                    h_yield_sys_cuts_elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13->Fill(r_lpt_tpt,weight*elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13/elec_0_NOMINAL_EleEffSF_offline_TightLLH_d0z0_v13);
-                    h_yield_sys_cuts_elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13->Fill(r_lpt_tpt,weight*elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13/elec_0_NOMINAL_EleEffSF_offline_TightLLH_d0z0_v13);
-                    h_yield_sys_cuts_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose->Fill(r_lpt_tpt,weight*elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose/elec_0_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose);
-                    h_yield_sys_cuts_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight->Fill(r_lpt_tpt,weight*elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight/elec_0_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight);
-                    h_yield_sys_cuts_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose->Fill(r_lpt_tpt,weight*elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose/elec_0_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose);
-                    h_yield_sys_cuts_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight->Fill(r_lpt_tpt,weight*elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight/elec_0_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight);
-                    h_yield_sys_cuts_elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk->Fill(r_lpt_tpt,weight*elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk/elec_0_NOMINAL_EleEffSF_offline_RecoTrk);
-                    h_yield_sys_cuts_elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk->Fill(r_lpt_tpt,weight*elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk/elec_0_NOMINAL_EleEffSF_offline_RecoTrk);
-                    h_yield_sys_cuts_elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight->Fill(r_lpt_tpt,weight*elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight/elec_0_NOMINAL_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight);
-                    h_yield_sys_cuts_elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight->Fill(r_lpt_tpt,weight*elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight/elec_0_NOMINAL_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight);
+                    h_ratio_ptjet_zpt_cuts->Fill(r_jpt_zpt,weight);
+                    h_lep1_phi_cuts->Fill(elec_0_p4->Phi(),weight);
+                    h_lep2_phi_cuts->Fill(elec_1_p4->Phi(),weight);
+                    h_Z_pt_reco_cuts->Fill(Z_pt,weight);
+                    h_ljet1_pt_topo_cuts->Fill(ljet_0_p4->Pt(),weight);
+                    h_ljet2_pt_topo_cuts->Fill(ljet_1_p4->Pt(),weight);
+                    h_ljet3_pt_topo_cuts->Fill(ljet_2_p4->Pt(),weight);
 
-                    h_yield_sys_cuts_elec_1_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13->Fill(r_lpt_tpt,weight*elec_1_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13/elec_1_NOMINAL_EleEffSF_offline_TightLLH_d0z0_v13);
-                    h_yield_sys_cuts_elec_1_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13->Fill(r_lpt_tpt,weight*elec_1_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13/elec_1_NOMINAL_EleEffSF_offline_TightLLH_d0z0_v13);
-                    h_yield_sys_cuts_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose->Fill(r_lpt_tpt,weight*elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose/elec_1_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose);
-                    h_yield_sys_cuts_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight->Fill(r_lpt_tpt,weight*elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight/elec_1_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight);
-                    h_yield_sys_cuts_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose->Fill(r_lpt_tpt,weight*elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose/elec_1_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose);
-                    h_yield_sys_cuts_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight->Fill(r_lpt_tpt,weight*elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight/elec_1_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight);
-                    h_yield_sys_cuts_elec_1_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk->Fill(r_lpt_tpt,weight*elec_1_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk/elec_1_NOMINAL_EleEffSF_offline_RecoTrk);
-                    h_yield_sys_cuts_elec_1_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk->Fill(r_lpt_tpt,weight*elec_1_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk/elec_1_NOMINAL_EleEffSF_offline_RecoTrk);
-                    h_yield_sys_cuts_elec_1_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight->Fill(r_lpt_tpt,weight*elec_1_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight/elec_1_NOMINAL_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight);
-                    h_yield_sys_cuts_elec_1_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight->Fill(r_lpt_tpt,weight*elec_1_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight/elec_1_NOMINAL_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight);
+                    h_lep1_eta_cuts->Fill(elec_0_p4->Eta(),weight);
+                    h_lep2_eta_cuts->Fill(elec_1_p4->Eta(),weight);
+                    h_delta_R_leplep_cuts->Fill(elec_0_p4->DeltaR(*elec_1_p4),weight);
 
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_0_1down_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_B_0_1down_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_0_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_B_0_1down_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_0_1up_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_B_0_1up_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_0_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_B_0_1up_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_1_1down_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_B_1_1down_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_1_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_B_1_1down_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_1_1up_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_B_1_1up_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_1_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_B_1_1up_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_2_1down_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_B_2_1down_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_2_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_B_2_1down_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_2_1up_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_B_2_1up_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_2_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_B_2_1up_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_0_1down_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_0_1down_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_0_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_0_1down_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_0_1up_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_0_1up_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_0_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_0_1up_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_1_1down_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_1_1down_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_1_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_1_1down_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_1_1up_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_1_1up_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_1_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_1_1up_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_2_1down_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_2_1down_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_2_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_2_1down_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_2_1up_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_2_1up_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_2_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_2_1up_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_3_1down_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_3_1down_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_3_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_3_1down_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_3_1up_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_3_1up_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_3_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_3_1up_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_0_1down_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_0_1down_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_0_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_0_1down_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_0_1up_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_0_1up_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_0_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_0_1up_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_1_1down_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_1_1down_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_1_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_1_1down_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_1_1up_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_1_1up_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_1_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_1_1up_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_2_1down_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_2_1down_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_2_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_2_1down_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_2_1up_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_2_1up_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_2_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_2_1up_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_3_1down_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_3_1down_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_3_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_3_1down_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_3_1up_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_3_1up_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_3_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_3_1up_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_extrapolation_1down_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_extrapolation_1down_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_extrapolation_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_extrapolation_1down_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_extrapolation_1up_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_extrapolation_1up_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_extrapolation_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_extrapolation_1up_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_extrapolation_from_charm_1down_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_extrapolation_from_charm_1down_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_extrapolation_from_charm_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_extrapolation_from_charm_1down_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_extrapolation_from_charm_1up_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_extrapolation_from_charm_1up_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_FT_EFF_extrapolation_from_charm_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_extrapolation_from_charm_1up_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                    h_yield_sys_cuts_jet_JET_JvtEfficiency_1down_central_jets_global_effSF_JVT->Fill(r_lpt_tpt,weight*jet_JET_JvtEfficiency_1down_central_jets_global_effSF_JVT/jet_NOMINAL_central_jets_global_effSF_JVT);
-                    h_yield_sys_cuts_jet_JET_JvtEfficiency_1down_central_jets_global_ineffSF_JVT->Fill(r_lpt_tpt,weight*jet_JET_JvtEfficiency_1down_central_jets_global_ineffSF_JVT/jet_NOMINAL_central_jets_global_ineffSF_JVT);
-                    h_yield_sys_cuts_jet_JET_JvtEfficiency_1up_central_jets_global_effSF_JVT->Fill(r_lpt_tpt,weight*jet_JET_JvtEfficiency_1up_central_jets_global_effSF_JVT/jet_NOMINAL_central_jets_global_effSF_JVT);
-                    h_yield_sys_cuts_jet_JET_JvtEfficiency_1up_central_jets_global_ineffSF_JVT->Fill(r_lpt_tpt,weight*jet_JET_JvtEfficiency_1up_central_jets_global_ineffSF_JVT/jet_NOMINAL_central_jets_global_ineffSF_JVT);
-                    h_yield_sys_cuts_jet_JET_fJvtEfficiency_1down_forward_jets_global_effSF_JVT->Fill(r_lpt_tpt,weight*jet_JET_fJvtEfficiency_1down_forward_jets_global_effSF_JVT/jet_NOMINAL_forward_jets_global_effSF_JVT);
-                    h_yield_sys_cuts_jet_JET_fJvtEfficiency_1down_forward_jets_global_ineffSF_JVT->Fill(r_lpt_tpt,weight*jet_JET_fJvtEfficiency_1down_forward_jets_global_ineffSF_JVT/jet_NOMINAL_forward_jets_global_ineffSF_JVT);
-                    h_yield_sys_cuts_jet_JET_fJvtEfficiency_1up_forward_jets_global_effSF_JVT->Fill(r_lpt_tpt,weight*jet_JET_fJvtEfficiency_1up_forward_jets_global_effSF_JVT/jet_NOMINAL_forward_jets_global_effSF_JVT);
-                    h_yield_sys_cuts_jet_JET_fJvtEfficiency_1up_forward_jets_global_ineffSF_JVT->Fill(r_lpt_tpt,weight*jet_JET_fJvtEfficiency_1up_forward_jets_global_ineffSF_JVT/jet_NOMINAL_forward_jets_global_ineffSF_JVT);
-                    // LEP PT
+                    h_trigger_1_pass_cuts->Fill((trigger_match_1 | trigger_match_2),weight);
+                    h_trigger_2_pass_cuts->Fill(trigger_match_12,weight);
+
+                    if(event_number%2==0){
+                      h_tau_pt_topo_cuts->Fill(elec_1_p4->Pt(),weight);
+                      h_tau_eta_topo_cuts->Fill(elec_1_p4->Eta(),weight);
+                    } else{
+                      h_tau_pt_topo_cuts->Fill(elec_0_p4->Pt(),weight);
+                      h_tau_eta_topo_cuts->Fill(elec_0_p4->Eta(),weight);
+                    }
+
+                    if (Z_pt<100){
+                      h_sum_pt_cuts_ZpTa->Fill(elec_0_p4->Pt()+elec_1_p4->Pt(),weight);
+                    } if (Z_pt>100 && Z_pt<150){
+                      h_sum_pt_cuts_ZpTb->Fill(elec_0_p4->Pt()+elec_1_p4->Pt(),weight);
+                    } if (Z_pt>150) {
+                      h_sum_pt_cuts_ZpTc->Fill(elec_0_p4->Pt()+elec_1_p4->Pt(),weight);
+                    }
+
+                    if (weight!=1){
+                      h_Z_pt_truth_cuts->Fill(truth_z_pt,weight);
+                    }
                     if(cuts[6]==1){
+                      h_RunN_topo_tpt->Fill(run_number,weight);
+                      if(run_number==358115){h_EventN_RN358115_topo_tpt->Fill(event_number,weight);}
+                      if(run_number==359541){h_EventN_RN359541_topo_tpt->Fill(event_number,weight);}
+                      h_met_topo_dphi_btag_iso_pt1_pt2_mass_ptl->Fill(met_reco_p4->Pt(),weight);
+                      h_jet_n_topo_dphi_btag_iso_pt1_pt2_mass_ptl->Fill(n_jets, weight);
+                      h_lep1_pt_topo_dphi_btag_iso_pt1_pt2_mass_ptl->Fill(elec_0_p4->Pt(),weight);
+                      h_lep2_pt_topo_dphi_btag_iso_pt1_pt2_mass_ptl->Fill(elec_1_p4->Pt(),weight);
+                      h_sumlep_pt_topo_dphi_btag_iso_pt1_pt2_mass_ptl->Fill(elec_0_p4->Pt()+elec_1_p4->Pt(),weight);
                       h_inv_mass_topo_dphi_btag_iso_pt1_pt2_mass_ptl->Fill(inv_mass,weight);
 
                       h_ratio_lpt_tpt_cuts_ptl->Fill(r_lpt_tpt,weight);
-                      h_yield_sys_cuts_ptl_elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13->Fill(r_lpt_tpt,weight*elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13/elec_0_NOMINAL_EleEffSF_offline_TightLLH_d0z0_v13);
-                      h_yield_sys_cuts_ptl_elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13->Fill(r_lpt_tpt,weight*elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13/elec_0_NOMINAL_EleEffSF_offline_TightLLH_d0z0_v13);
-                      h_yield_sys_cuts_ptl_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose->Fill(r_lpt_tpt,weight*elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose/elec_0_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose);
-                      h_yield_sys_cuts_ptl_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight->Fill(r_lpt_tpt,weight*elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight/elec_0_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight);
-                      h_yield_sys_cuts_ptl_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose->Fill(r_lpt_tpt,weight*elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose/elec_0_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose);
-                      h_yield_sys_cuts_ptl_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight->Fill(r_lpt_tpt,weight*elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight/elec_0_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight);
-                      h_yield_sys_cuts_ptl_elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk->Fill(r_lpt_tpt,weight*elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk/elec_0_NOMINAL_EleEffSF_offline_RecoTrk);
-                      h_yield_sys_cuts_ptl_elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk->Fill(r_lpt_tpt,weight*elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk/elec_0_NOMINAL_EleEffSF_offline_RecoTrk);
-                      h_yield_sys_cuts_ptl_elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight->Fill(r_lpt_tpt,weight*elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight/elec_0_NOMINAL_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight);
-                      h_yield_sys_cuts_ptl_elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight->Fill(r_lpt_tpt,weight*elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight/elec_0_NOMINAL_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight);
+                      h_ratio_ptjet_zpt_cuts_ptl->Fill(r_jpt_zpt,weight);
+                      h_Z_pt_reco_cuts_ptl->Fill(Z_pt,weight);
+                      h_ljet1_pt_topo_cuts_tpt->Fill(ljet_0_p4->Pt(),weight);
+                      h_ljet2_pt_topo_cuts_tpt->Fill(ljet_1_p4->Pt(),weight);
+                      h_ljet3_pt_topo_cuts_tpt->Fill(ljet_2_p4->Pt(),weight);
 
-                      h_yield_sys_cuts_ptl_elec_1_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13->Fill(r_lpt_tpt,weight*elec_1_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13/elec_1_NOMINAL_EleEffSF_offline_TightLLH_d0z0_v13);
-                      h_yield_sys_cuts_ptl_elec_1_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13->Fill(r_lpt_tpt,weight*elec_1_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13/elec_1_NOMINAL_EleEffSF_offline_TightLLH_d0z0_v13);
-                      h_yield_sys_cuts_ptl_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose->Fill(r_lpt_tpt,weight*elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose/elec_1_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose);
-                      h_yield_sys_cuts_ptl_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight->Fill(r_lpt_tpt,weight*elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight/elec_1_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight);
-                      h_yield_sys_cuts_ptl_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose->Fill(r_lpt_tpt,weight*elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose/elec_1_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose);
-                      h_yield_sys_cuts_ptl_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight->Fill(r_lpt_tpt,weight*elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight/elec_1_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight);
-                      h_yield_sys_cuts_ptl_elec_1_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk->Fill(r_lpt_tpt,weight*elec_1_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk/elec_1_NOMINAL_EleEffSF_offline_RecoTrk);
-                      h_yield_sys_cuts_ptl_elec_1_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk->Fill(r_lpt_tpt,weight*elec_1_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk/elec_1_NOMINAL_EleEffSF_offline_RecoTrk);
-                      h_yield_sys_cuts_ptl_elec_1_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight->Fill(r_lpt_tpt,weight*elec_1_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight/elec_1_NOMINAL_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight);
-                      h_yield_sys_cuts_ptl_elec_1_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight->Fill(r_lpt_tpt,weight*elec_1_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight/elec_1_NOMINAL_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight);
+                      h_lep1_eta_cuts_ptl->Fill(elec_0_p4->Eta(),weight);
+                      h_lep2_eta_cuts_ptl->Fill(elec_1_p4->Eta(),weight);
+                      h_delta_R_leplep_cuts_ptl->Fill(elec_0_p4->DeltaR(*elec_1_p4),weight);
 
-                      h_yield_sys_cuts_ptl_elecs_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13->Fill(r_lpt_tpt,weight*elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13/elec_0_NOMINAL_EleEffSF_offline_TightLLH_d0z0_v13*elec_1_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13/elec_1_NOMINAL_EleEffSF_offline_TightLLH_d0z0_v13);
-                      h_yield_sys_cuts_ptl_elecs_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13->Fill(r_lpt_tpt,weight*elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13/elec_0_NOMINAL_EleEffSF_offline_TightLLH_d0z0_v13*elec_1_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13/elec_1_NOMINAL_EleEffSF_offline_TightLLH_d0z0_v13);
-                      h_yield_sys_cuts_ptl_elecs_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose->Fill(r_lpt_tpt,weight*elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose/elec_0_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose*elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose/elec_1_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose);
-                      h_yield_sys_cuts_ptl_elecs_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight->Fill(r_lpt_tpt,weight*elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight/elec_0_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight*elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight/elec_1_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight);
-                      h_yield_sys_cuts_ptl_elecs_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose->Fill(r_lpt_tpt,weight*elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose/elec_0_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose*elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose/elec_1_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose);
-                      h_yield_sys_cuts_ptl_elecs_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight->Fill(r_lpt_tpt,weight*elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight/elec_0_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight*elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight/elec_1_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight);
-                      h_yield_sys_cuts_ptl_elecs_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk->Fill(r_lpt_tpt,weight*elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk/elec_0_NOMINAL_EleEffSF_offline_RecoTrk*elec_1_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk/elec_1_NOMINAL_EleEffSF_offline_RecoTrk);
-                      h_yield_sys_cuts_ptl_elecs_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk->Fill(r_lpt_tpt,weight*elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk/elec_0_NOMINAL_EleEffSF_offline_RecoTrk*elec_1_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk/elec_1_NOMINAL_EleEffSF_offline_RecoTrk);
-                      h_yield_sys_cuts_ptl_elecs_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight->Fill(r_lpt_tpt,weight*elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight/elec_0_NOMINAL_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight*elec_1_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight/elec_1_NOMINAL_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight);
-                      h_yield_sys_cuts_ptl_elecs_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight->Fill(r_lpt_tpt,weight*elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight/elec_0_NOMINAL_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight*elec_1_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight/elec_1_NOMINAL_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight);
+                      if (Z_pt<100){
+                        h_sum_pt_cuts_ptl_ZpTa->Fill(elec_0_p4->Pt()+elec_1_p4->Pt(),weight);
+                      } if (Z_pt>100 && Z_pt<150){
+                        h_sum_pt_cuts_ptl_ZpTb->Fill(elec_0_p4->Pt()+elec_1_p4->Pt(),weight);
+                      } if (Z_pt>150) {
+                        h_sum_pt_cuts_ptl_ZpTc->Fill(elec_0_p4->Pt()+elec_1_p4->Pt(),weight);
+                      }
 
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_0_1down_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_B_0_1down_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_0_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_B_0_1down_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_0_1up_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_B_0_1up_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_0_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_B_0_1up_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_1_1down_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_B_1_1down_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_1_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_B_1_1down_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_1_1up_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_B_1_1up_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_1_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_B_1_1up_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_2_1down_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_B_2_1down_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_2_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_B_2_1down_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_2_1up_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_B_2_1up_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_2_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_B_2_1up_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_0_1down_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_0_1down_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_0_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_0_1down_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_0_1up_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_0_1up_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_0_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_0_1up_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_1_1down_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_1_1down_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_1_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_1_1down_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_1_1up_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_1_1up_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_1_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_1_1up_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_2_1down_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_2_1down_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_2_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_2_1down_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_2_1up_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_2_1up_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_2_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_2_1up_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_3_1down_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_3_1down_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_3_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_3_1down_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_3_1up_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_3_1up_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_3_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_C_3_1up_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_0_1down_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_0_1down_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_0_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_0_1down_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_0_1up_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_0_1up_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_0_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_0_1up_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_1_1down_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_1_1down_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_1_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_1_1down_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_1_1up_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_1_1up_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_1_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_1_1up_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_2_1down_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_2_1down_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_2_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_2_1down_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_2_1up_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_2_1up_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_2_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_2_1up_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_3_1down_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_3_1down_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_3_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_3_1down_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_3_1up_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_3_1up_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_3_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_Eigen_Light_3_1up_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_1down_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_extrapolation_1down_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_extrapolation_1down_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_1up_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_extrapolation_1up_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_extrapolation_1up_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_from_charm_1down_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_extrapolation_from_charm_1down_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_from_charm_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_extrapolation_from_charm_1down_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_from_charm_1up_global_effSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_extrapolation_from_charm_1up_global_effSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85);
-                      h_yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_from_charm_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Fill(r_lpt_tpt,weight*jet_FT_EFF_extrapolation_from_charm_1up_global_ineffSF_MV2c10_FixedCutBEff_85/jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
-                      //h_yield_sys_cuts_ptl_jet_JET_JvtEfficiency_1down_central_jets_global_effSF_JVT->Fill(r_lpt_tpt,weight*jet_JET_JvtEfficiency_1down_central_jets_global_effSF_JVT/jet_NOMINAL_central_jets_global_effSF_JVT);
-                      if (!isnan(r_lpt_tpt*weight*jet_JET_JvtEfficiency_1down_central_jets_global_effSF_JVT/jet_NOMINAL_central_jets_global_effSF_JVT)){h_yield_sys_cuts_ptl_jet_JET_JvtEfficiency_1down_central_jets_global_effSF_JVT->Fill(r_lpt_tpt,weight*jet_JET_JvtEfficiency_1down_central_jets_global_effSF_JVT/jet_NOMINAL_central_jets_global_effSF_JVT);}
-                      if (!isnan(r_lpt_tpt*weight*jet_JET_JvtEfficiency_1up_central_jets_global_effSF_JVT/jet_NOMINAL_central_jets_global_effSF_JVT)){h_yield_sys_cuts_ptl_jet_JET_JvtEfficiency_1up_central_jets_global_effSF_JVT->Fill(r_lpt_tpt,weight*jet_JET_JvtEfficiency_1up_central_jets_global_effSF_JVT/jet_NOMINAL_central_jets_global_effSF_JVT);}
-
-                      h_yield_sys_cuts_ptl_jet_JET_JvtEfficiency_1down_central_jets_global_ineffSF_JVT->Fill(r_lpt_tpt,weight*jet_JET_JvtEfficiency_1down_central_jets_global_ineffSF_JVT/jet_NOMINAL_central_jets_global_ineffSF_JVT);
-                      //h_yield_sys_cuts_ptl_jet_JET_JvtEfficiency_1up_central_jets_global_effSF_JVT->Fill(r_lpt_tpt,weight*jet_JET_JvtEfficiency_1up_central_jets_global_effSF_JVT/jet_NOMINAL_central_jets_global_effSF_JVT);
-                      h_yield_sys_cuts_ptl_jet_JET_JvtEfficiency_1up_central_jets_global_ineffSF_JVT->Fill(r_lpt_tpt,weight*jet_JET_JvtEfficiency_1up_central_jets_global_ineffSF_JVT/jet_NOMINAL_central_jets_global_ineffSF_JVT);
-                      h_yield_sys_cuts_ptl_jet_JET_fJvtEfficiency_1down_forward_jets_global_effSF_JVT->Fill(r_lpt_tpt,weight*jet_JET_fJvtEfficiency_1down_forward_jets_global_effSF_JVT/jet_NOMINAL_forward_jets_global_effSF_JVT);
-                      h_yield_sys_cuts_ptl_jet_JET_fJvtEfficiency_1down_forward_jets_global_ineffSF_JVT->Fill(r_lpt_tpt,weight*jet_JET_fJvtEfficiency_1down_forward_jets_global_ineffSF_JVT/jet_NOMINAL_forward_jets_global_ineffSF_JVT);
-                      h_yield_sys_cuts_ptl_jet_JET_fJvtEfficiency_1up_forward_jets_global_effSF_JVT->Fill(r_lpt_tpt,weight*jet_JET_fJvtEfficiency_1up_forward_jets_global_effSF_JVT/jet_NOMINAL_forward_jets_global_effSF_JVT);
-                      h_yield_sys_cuts_ptl_jet_JET_fJvtEfficiency_1up_forward_jets_global_ineffSF_JVT->Fill(r_lpt_tpt,weight*jet_JET_fJvtEfficiency_1up_forward_jets_global_ineffSF_JVT/jet_NOMINAL_forward_jets_global_ineffSF_JVT);
+                      if (weight!=1){
+                        h_Z_pt_truth_cuts_ptl->Fill(truth_z_pt,weight);
+                      }
                     }
                   }
                 }
@@ -556,7 +505,111 @@ void CLoop::Fill(double weight, int z_sample) {
   }
 
 void CLoop::Style(double lumFactor) {
+    // This function is where you can control the style elements of your histograms and write them to a file
+    // It is called once per data set
 
+    // For example, set some properties of the lep_n histogram
+    /*h_lep_n->GetXaxis()->SetTitle("Number of leptons per event"); // label x axis
+    h_lep_n->GetYaxis()->SetTitle("Number of entries/bin"); // label y axis
+    h_lep_n->SetTitle("Number of leptons  per event");
+    h_lep_n->SetLineColor(kRed);*/ // set the line colour to red
+    // For more information see https://root.cern.ch/root/htmldoc/guides/users-guide/Histograms.html
+
+    // Write histograms to a file
+    // This needs to be done for each histogram
+    h_RunN_topo->Write();
+    h_RunN_topo_tpt->Write();
+
+    h_EventN_RN358115_topo->Write();
+    h_EventN_RN358115_topo_tpt->Write();
+
+    h_EventN_RN359541_topo->Write();
+    h_EventN_RN359541_topo_tpt->Write();
+    // Writing jet pT
+    h_ljet1_pt_topo->Write();
+    h_ljet1_pt_topo_cuts->Write();
+    h_ljet1_pt_topo_cuts_tpt->Write();
+
+    h_ljet2_pt_topo->Write();
+    h_ljet2_pt_topo_cuts->Write();
+    h_ljet2_pt_topo_cuts_tpt->Write();
+
+    h_ljet3_pt_topo->Write();
+    h_ljet3_pt_topo_cuts->Write();
+    h_ljet3_pt_topo_cuts_tpt->Write();
+
+    h_lep1_pt_topo->Write();
+    h_lep1_pt_topo_dphi->Write();
+    h_lep1_pt_topo_dphi_btag->Write();
+    h_lep1_pt_topo_dphi_btag_iso->Write();
+    h_lep1_pt_topo_dphi_btag_iso_pt1->Write();
+    h_lep1_pt_topo_dphi_btag_iso_pt1_pt2->Write();
+    h_lep1_pt_topo_dphi_btag_iso_pt1_pt2_mass->Write();
+    h_lep1_pt_topo_dphi_btag_iso_pt1_pt2_mass_ptl->Write();
+    h_lep1_pt_topo_dphi_btag_iso_pt2_mass_ptl->Write();
+
+    h_lep1_eta_cuts->Write();
+    h_lep1_eta_cuts_ptl->Write();
+
+    //phi
+    h_lep1_phi_topo->Write();
+    h_lep1_phi_cuts->Write();
+
+    // Histograms for lepton 2
+    h_lep2_pt_topo->Write();
+    h_lep2_pt_topo_dphi->Write();
+    h_lep2_pt_topo_dphi_btag->Write();
+    h_lep2_pt_topo_dphi_btag_iso->Write();
+    h_lep2_pt_topo_dphi_btag_iso_pt1->Write();
+    h_lep2_pt_topo_dphi_btag_iso_pt1_pt2->Write();
+    h_lep2_pt_topo_dphi_btag_iso_pt1_pt2_mass->Write();
+    h_lep2_pt_topo_dphi_btag_iso_pt1_pt2_mass_ptl->Write();
+    h_lep2_pt_topo_dphi_btag_iso_pt1_mass_ptl->Write();
+
+    h_lep2_eta_cuts->Write();
+    h_lep2_eta_cuts_ptl->Write();
+
+    h_delta_R_leplep_cuts->Write();
+    h_delta_R_leplep_cuts_ptl->Write();
+
+    h_sumlep_pt_topo->Write();
+    h_sumlep_pt_topo_dphi->Write();
+    h_sumlep_pt_topo_dphi_btag->Write();
+    h_sumlep_pt_topo_dphi_btag_iso->Write();
+    h_sumlep_pt_topo_dphi_btag_iso_pt1->Write();
+    h_sumlep_pt_topo_dphi_btag_iso_pt1_pt2->Write();
+    h_sumlep_pt_topo_dphi_btag_iso_pt1_pt2_mass->Write();
+    h_sumlep_pt_topo_dphi_btag_iso_pt1_pt2_mass_ptl->Write();
+    h_sumlep_pt_topo_dphi_btag_iso_pt1_mass_ptl->Write();
+
+    h_sum_pt_topo_ZpTa->Write();
+    h_sum_pt_topo_ZpTb->Write();
+    h_sum_pt_topo_ZpTc->Write();
+
+    h_sum_pt_cuts_ZpTa->Write();
+    h_sum_pt_cuts_ZpTb->Write();
+    h_sum_pt_cuts_ZpTc->Write();
+
+    h_sum_pt_cuts_ptl_ZpTa->Write();
+    h_sum_pt_cuts_ptl_ZpTb->Write();
+    h_sum_pt_cuts_ptl_ZpTc->Write();
+
+    h_lep2_phi_topo->Write();
+    h_lep2_phi_cuts->Write();
+
+    // MET Histograms
+    h_met_topo->Write();
+    h_met_topo_dphi->Write();
+    h_met_topo_dphi_btag->Write();
+    h_met_topo_dphi_btag_iso->Write();
+    h_met_topo_dphi_btag_iso_pt1->Write();
+    h_met_topo_dphi_btag_iso_pt1_pt2->Write();
+    h_met_topo_dphi_btag_iso_pt1_pt2_mass->Write();
+    h_met_topo_dphi_btag_iso_pt1_pt2_mass_ptl->Write();
+
+    // Invariant mass histograms
+
+    // inv histos
     h_inv_mass_topo->Write();
     h_inv_mass_topo_dphi->Write();
     h_inv_mass_topo_dphi_btag->Write();
@@ -567,187 +620,57 @@ void CLoop::Style(double lumFactor) {
     h_inv_mass_topo_dphi_btag_iso_pt1_pt2_mass_ptl->Write();
     h_inv_mass_topo_dphi_btag_iso_pt1_pt2_ptl->Write();
 
+    if (lumFactor!=1)
+    {
+      h_Z_pt_truth_topo->Write();
+      h_Z_pt_truth_cuts->Write();
+      h_Z_pt_truth_cuts_ptl->Write();
+    }
+
+    // Jet Number Histograms
+    h_jet_n_topo->Write();
+    h_jet_n_topo_dphi_btag_iso_pt1_pt2_mass->Write();
+    h_jet_n_topo_dphi_btag_iso_pt1_pt2_mass_ptl->Write();
+
+
+    h_b_tag_topo->Write();
+    h_b_tag_topo_dphi_iso_pt1_pt2_mass_ptl->Write();
+
+
+    // Isolation variables Histograms
+    h_elec_0_isolation_topo->Write();
+    h_elec_0_isolation_topo_dphi_btag_pt1_pt2_mass_ptl->Write();
+
+    h_elec_1_isolation_topo->Write();
+    h_elec_1_isolation_topo_dphi_btag_pt1_pt2_mass_ptl->Write();
+
+    h_Z_pt_reco_topo->Write();
+    h_Z_pt_reco_cuts->Write();
+    h_Z_pt_reco_cuts_ptl->Write();
+
+    h_delta_phi->Write();
+    h_delta_phi_topo->Write();
+    h_delta_phi_cuts->Write();
+    h_delta_phi_cuts_ptl->Write();
+    h_delta_phi_cuts_butphi->Write();
 
     //MJ BG DISCRIMINATION VARIABLES
+    h_ratio_ptjet_zpt_topo->Write();
+    h_ratio_lpt_tpt_topo->Write();
+    h_ratio_ptjet_zpt_cuts->Write();
     h_ratio_lpt_tpt_cuts->Write();
+    h_ratio_ptjet_zpt_cuts_ptl->Write();
     h_ratio_lpt_tpt_cuts_ptl->Write();
+    // TRIGGER STATISTICS
+    h_trigger_1_pass->Write();
+    h_trigger_1_pass_cuts->Write();
+    h_trigger_2_pass->Write();
+    h_trigger_2_pass_cuts->Write();
 
-    h_yield_sys_cuts_elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13->Write();
-    h_yield_sys_cuts_elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13->Write();
-    h_yield_sys_cuts_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose->Write();
-    h_yield_sys_cuts_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight->Write();
-    h_yield_sys_cuts_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose->Write();
-    h_yield_sys_cuts_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight->Write();
-    h_yield_sys_cuts_elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk->Write();
-    h_yield_sys_cuts_elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk->Write();
-    h_yield_sys_cuts_elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight->Write();
-    h_yield_sys_cuts_elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight->Write();
-
-    h_yield_sys_cuts_ptl_elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13->Write();
-    h_yield_sys_cuts_ptl_elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13->Write();
-    h_yield_sys_cuts_ptl_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose->Write();
-    h_yield_sys_cuts_ptl_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight->Write();
-    h_yield_sys_cuts_ptl_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose->Write();
-    h_yield_sys_cuts_ptl_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight->Write();
-    h_yield_sys_cuts_ptl_elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk->Write();
-    h_yield_sys_cuts_ptl_elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk->Write();
-    h_yield_sys_cuts_ptl_elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight->Write();
-    h_yield_sys_cuts_ptl_elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight->Write();
-
-    h_yield_sys_cuts_elec_1_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13->Write();
-    h_yield_sys_cuts_elec_1_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13->Write();
-    h_yield_sys_cuts_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose->Write();
-    h_yield_sys_cuts_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight->Write();
-    h_yield_sys_cuts_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose->Write();
-    h_yield_sys_cuts_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight->Write();
-    h_yield_sys_cuts_elec_1_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk->Write();
-    h_yield_sys_cuts_elec_1_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk->Write();
-    h_yield_sys_cuts_elec_1_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight->Write();
-    h_yield_sys_cuts_elec_1_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight->Write();
-
-    h_yield_sys_cuts_ptl_elec_1_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13->Write();
-    h_yield_sys_cuts_ptl_elec_1_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13->Write();
-    h_yield_sys_cuts_ptl_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose->Write();
-    h_yield_sys_cuts_ptl_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight->Write();
-    h_yield_sys_cuts_ptl_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose->Write();
-    h_yield_sys_cuts_ptl_elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight->Write();
-    h_yield_sys_cuts_ptl_elec_1_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk->Write();
-    h_yield_sys_cuts_ptl_elec_1_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk->Write();
-    h_yield_sys_cuts_ptl_elec_1_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight->Write();
-    h_yield_sys_cuts_ptl_elec_1_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight->Write();
-
-    h_yield_sys_cuts_ptl_elecs_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13->Write();
-    h_yield_sys_cuts_ptl_elecs_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13->Write();
-    h_yield_sys_cuts_ptl_elecs_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose->Write();
-    h_yield_sys_cuts_ptl_elecs_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight->Write();
-    h_yield_sys_cuts_ptl_elecs_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose->Write();
-    h_yield_sys_cuts_ptl_elecs_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight->Write();
-    h_yield_sys_cuts_ptl_elecs_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk->Write();
-    h_yield_sys_cuts_ptl_elecs_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk->Write();
-    h_yield_sys_cuts_ptl_elecs_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight->Write();
-    h_yield_sys_cuts_ptl_elecs_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight->Write();
-
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_0_1down_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_0_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_0_1up_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_0_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_1_1down_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_1_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_1_1up_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_1_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_2_1down_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_2_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_2_1up_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_B_2_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_0_1down_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_0_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_0_1up_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_0_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_1_1down_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_1_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_1_1up_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_1_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_2_1down_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_2_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_2_1up_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_2_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_3_1down_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_3_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_3_1up_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_C_3_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_0_1down_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_0_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_0_1up_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_0_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_1_1down_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_1_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_1_1up_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_1_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_2_1down_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_2_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_2_1up_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_2_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_3_1down_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_3_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_3_1up_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_Eigen_Light_3_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_extrapolation_1down_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_extrapolation_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_extrapolation_1up_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_extrapolation_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_extrapolation_from_charm_1down_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_extrapolation_from_charm_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_extrapolation_from_charm_1up_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_FT_EFF_extrapolation_from_charm_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_jet_JET_JvtEfficiency_1down_central_jets_global_effSF_JVT->Write();
-    h_yield_sys_cuts_jet_JET_JvtEfficiency_1down_central_jets_global_ineffSF_JVT->Write();
-    h_yield_sys_cuts_jet_JET_JvtEfficiency_1up_central_jets_global_effSF_JVT->Write();
-    h_yield_sys_cuts_jet_JET_JvtEfficiency_1up_central_jets_global_ineffSF_JVT->Write();
-    h_yield_sys_cuts_jet_JET_fJvtEfficiency_1down_forward_jets_global_effSF_JVT->Write();
-    h_yield_sys_cuts_jet_JET_fJvtEfficiency_1down_forward_jets_global_ineffSF_JVT->Write();
-    h_yield_sys_cuts_jet_JET_fJvtEfficiency_1up_forward_jets_global_effSF_JVT->Write();
-    h_yield_sys_cuts_jet_JET_fJvtEfficiency_1up_forward_jets_global_ineffSF_JVT->Write();
-
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_0_1down_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_0_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_0_1up_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_0_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_1_1down_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_1_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_1_1up_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_1_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_2_1down_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_2_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_2_1up_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_B_2_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_0_1down_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_0_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_0_1up_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_0_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_1_1down_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_1_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_1_1up_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_1_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_2_1down_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_2_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_2_1up_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_2_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_3_1down_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_3_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_3_1up_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_C_3_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_0_1down_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_0_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_0_1up_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_0_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_1_1down_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_1_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_1_1up_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_1_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_2_1down_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_2_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_2_1up_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_2_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_3_1down_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_3_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_3_1up_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_Eigen_Light_3_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_1down_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_1up_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_from_charm_1down_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_from_charm_1down_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_from_charm_1up_global_effSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_FT_EFF_extrapolation_from_charm_1up_global_ineffSF_MV2c10_FixedCutBEff_85->Write();
-    h_yield_sys_cuts_ptl_jet_JET_JvtEfficiency_1down_central_jets_global_effSF_JVT->Write();
-    h_yield_sys_cuts_ptl_jet_JET_JvtEfficiency_1down_central_jets_global_ineffSF_JVT->Write();
-    h_yield_sys_cuts_ptl_jet_JET_JvtEfficiency_1up_central_jets_global_effSF_JVT->Write();
-    h_yield_sys_cuts_ptl_jet_JET_JvtEfficiency_1up_central_jets_global_ineffSF_JVT->Write();
-    h_yield_sys_cuts_ptl_jet_JET_fJvtEfficiency_1down_forward_jets_global_effSF_JVT->Write();
-    h_yield_sys_cuts_ptl_jet_JET_fJvtEfficiency_1down_forward_jets_global_ineffSF_JVT->Write();
-    h_yield_sys_cuts_ptl_jet_JET_fJvtEfficiency_1up_forward_jets_global_effSF_JVT->Write();
-    h_yield_sys_cuts_ptl_jet_JET_fJvtEfficiency_1up_forward_jets_global_ineffSF_JVT->Write();
+    h_tau_pt_topo->Write();
+    h_tau_pt_topo_cuts->Write();
+    h_tau_eta_topo->Write();
+    h_tau_eta_topo_cuts->Write();
 }
 
 #endif // End header guard

@@ -369,11 +369,11 @@ void CLoop::Fill(double weight, int z_sample) {
         h_ljet3_pt_topo->Fill(ljet_2_p4->Pt(),weight);
 
         if(event_number%2==0){
-          h_tau_pt_topo->Fill(muon_1_p4->Pt(),weight);
-          h_tau_eta_topo->Fill(muon_1_p4->Eta(),weight);
+          h_tau_pt_topo->Fill(elec_1_p4->Pt(),weight);
+          h_tau_eta_topo->Fill(elec_1_p4->Eta(),weight);
         } else{
-          h_tau_pt_topo->Fill(muon_0_p4->Pt(),weight);
-          h_tau_eta_topo->Fill(muon_0_p4->Eta(),weight);
+          h_tau_pt_topo->Fill(elec_0_p4->Pt(),weight);
+          h_tau_eta_topo->Fill(elec_0_p4->Eta(),weight);
         }
 
         // ANGLE CUT
@@ -442,11 +442,11 @@ void CLoop::Fill(double weight, int z_sample) {
                     h_trigger_2_pass_cuts->Fill(trigger_match_12,weight);
 
                     if(event_number%2==0){
-                      h_tau_pt_topo_cuts->Fill(muon_1_p4->Pt(),weight);
-                      h_tau_eta_topo_cuts->Fill(muon_1_p4->Eta(),weight);
+                      h_tau_pt_topo_cuts->Fill(elec_1_p4->Pt(),weight);
+                      h_tau_eta_topo_cuts->Fill(elec_1_p4->Eta(),weight);
                     } else{
-                      h_tau_pt_topo_cuts->Fill(muon_0_p4->Pt(),weight);
-                      h_tau_eta_topo_cuts->Fill(muon_0_p4->Eta(),weight);
+                      h_tau_pt_topo_cuts->Fill(elec_0_p4->Pt(),weight);
+                      h_tau_eta_topo_cuts->Fill(elec_0_p4->Eta(),weight);
                     }
 
                     if (Z_pt<100){
