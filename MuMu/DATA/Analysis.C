@@ -198,6 +198,12 @@ void CLoop::Book(double lumFactor) {
     h_w_topo_cuts_ptl = new TH1F("w_topo_cuts_ptl","sum of weights",2,0,2);
     h_w_dist_topo = new TH1F("w_dist_topo","weights distribution",2000,-10,10);
     h_w_dist_topo_cuts_ptl = new TH1F("w_dist_topo_cuts_ptl","weights distribution",2000,-10,10);
+    // TAU LEPTON EQUIVALENT
+    h_tau_pt_topo = new TH1F("tau_pt_topo","Transverse momentum of tau-equivalent",200,0,200);
+    h_tau_pt_topo_cuts = new TH1F("tau_pt_topo_cuts","Transverse momentum of tau-equivalent",200,0,200);
+    h_tau_eta_topo = new TH1F("tau_eta_topo","Eta angle tau-equivalent",50,-2.5,2.5);
+    h_tau_eta_topo_cuts = new TH1F("tau_eta_topo_cuts","Eta angle tau-equivalent",50,-2.5,2.5);
+
 }
 
 void CLoop::Fill(double weight, int z_sample) {
@@ -368,6 +374,13 @@ void CLoop::Fill(double weight, int z_sample) {
         h_w_topo->Fill(1,weight);
         h_w_dist_topo->Fill(weight,1);
 
+        if(event_number%2==0){
+          h_tau_pt_topo->Fill(muon_1_p4->Pt(),weight);
+          h_tau_eta_topo->Fill(muon_1_p4->Eta(),weight);
+        } else{
+          h_tau_pt_topo->Fill(muon_0_p4->Pt(),weight);
+          h_tau_eta_topo->Fill(muon_0_p4->Eta(),weight);
+        }
 
         // ANGLE CUT
         if (cuts[0]==1){
@@ -445,6 +458,15 @@ void CLoop::Fill(double weight, int z_sample) {
                     if (weight!=1){
                       h_Z_pt_truth_cuts->Fill(truth_z_pt,weight);
                     }
+
+                    if(event_number%2==0){
+                      h_tau_pt_topo_cuts->Fill(muon_1_p4->Pt(),weight);
+                      h_tau_eta_topo_cuts->Fill(muon_1_p4->Eta(),weight);
+                    } else{
+                      h_tau_pt_topo_cuts->Fill(muon_0_p4->Pt(),weight);
+                      h_tau_eta_topo_cuts->Fill(muon_0_p4->Eta(),weight);
+                    }
+
                     if(cuts[6]==1){
                       h_RunN_topo_tpt->Fill(run_number,weight);
                       if(run_number==363738){h_EventN_RN363738_topo_tpt->Fill(event_number,weight);}
@@ -658,6 +680,11 @@ void CLoop::Style(double lumFactor) {
     h_w_topo_cuts_ptl->Write();
     h_w_dist_topo->Write();
     h_w_dist_topo_cuts_ptl->Write();
+
+    h_tau_pt_topo->Write();
+    h_tau_pt_topo_cuts->Write();
+    h_tau_eta_topo->Write();
+    h_tau_eta_topo_cuts->Write();
 }
 
 #endif // End header guard

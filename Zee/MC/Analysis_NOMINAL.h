@@ -158,4 +158,9 @@ TH1F * h_trigger_1_pass;
 TH1F * h_trigger_1_pass_cuts;
 TH1F * h_trigger_2_pass;
 TH1F * h_trigger_2_pass_cuts;
+
+TH1F * h_tau_pt_topo;
+TH1F * h_tau_pt_topo_cuts;
+TH1F * h_tau_eta_topo;
+TH1F * h_tau_eta_topo_cuts;
 #endif
