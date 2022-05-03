@@ -170,4 +170,7 @@ TH1F * h_tau_pt_topo_cuts;
 TH1F * h_tau_eta_topo;
 TH1F * h_tau_eta_topo_cuts;
 
+TH1F * h_lep1_eta_loose;
+TH1F * h_lep2_eta_loose;
+
 #endif

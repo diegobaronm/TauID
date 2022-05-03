@@ -77,6 +77,7 @@ void CLoop::Book(double lumFactor) {
     h_lep1_pt_topo_dphi_btag_iso_pt1_pt2_mass_ptl = new TH1F("lep1_pt_topo_dphi_btag_iso_pt1_pt2_mass_ptl","Transverse momentum of lep1",200,0,200);
     h_lep1_pt_topo_dphi_btag_iso_pt2_mass_ptl = new TH1F("lep1_pt_topo_dphi_btag_iso_pt2_mass_ptl","Transverse momentum of lep1",200,0,200);
 
+    h_lep1_eta_loose = new TH1F("lep1_eta_loose","Eta of light lepton 1 ",50,-2.5,2.5);
     h_lep1_eta_cuts = new TH1F("lep1_eta_cuts","Eta of light lepton 1 ",50,-2.5,2.5);
     h_lep1_eta_cuts_ptl = new TH1F("lep1_eta_cuts_ptl","Eta of light lepton 1 ",50,-2.5,2.5);
 
@@ -95,6 +96,7 @@ void CLoop::Book(double lumFactor) {
     h_lep2_pt_topo_dphi_btag_iso_pt1_pt2_mass_ptl = new TH1F("lep2_pt_topo_dphi_btag_iso_pt1_pt2_mass_ptl","Transverse momentum of lep2",200,0,200);
     h_lep2_pt_topo_dphi_btag_iso_pt1_mass_ptl = new TH1F("lep2_pt_topo_dphi_btag_iso_pt1_mass_ptl","Transverse momentum of lep2",200,0,200);
 
+    h_lep2_eta_loose = new TH1F("lep2_eta_loose","Eta of light lepton 2 ",50,-2.5,2.5);
     h_lep2_eta_cuts = new TH1F("lep2_eta_cuts","Eta of light lepton 2 ",50,-2.5,2.5);
     h_lep2_eta_cuts_ptl = new TH1F("lep2_eta_cuts_ptl","Eta of light lepton 2 ",50,-2.5,2.5);
 
@@ -400,6 +402,9 @@ void CLoop::Fill(double weight, int z_sample) {
               h_sumlep_pt_topo_dphi_btag_iso->Fill(elec_0_p4->Pt()+elec_1_p4->Pt(),weight);
               h_inv_mass_topo_dphi_btag_iso->Fill(inv_mass,weight);
 
+              h_lep1_eta_loose->Fill(elec_0_p4->Eta(),weight);
+              h_lep2_eta_loose->Fill(elec_1_p4->Eta(),weight);
+
               // pT 1 CUT
               if (cuts[3]==1) {
                 h_met_topo_dphi_btag_iso_pt1->Fill(met_reco_p4->Pt(),weight);
@@ -671,6 +676,9 @@ void CLoop::Style(double lumFactor) {
     h_tau_pt_topo_cuts->Write();
     h_tau_eta_topo->Write();
     h_tau_eta_topo_cuts->Write();
+
+    h_lep1_eta_loose->Write();
+    h_lep2_eta_loose->Write();
 }
 
 #endif // End header guard

@@ -297,4 +297,7 @@ TH1F * h_n_tracks;
 TH1F * h_n_tracks_cuts;
 TH1F * h_n_tracks_cuts_tpt;
 
+TH1F * h_tau_eta_loose;
+TH1F * h_lep_eta_loose;
+
 #endif

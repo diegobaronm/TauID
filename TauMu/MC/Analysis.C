@@ -126,6 +126,7 @@ void CLoop::Book(double lumFactor) {
     h_lep_pt_3p_cuts = new TH1F("lep_pt_3p_cuts","Transverse momentum of light lepton 3 prongs",200,0,200);
     h_lep_pt_3p_cuts_tpt = new TH1F("lep_pt_3p_cuts_tpt","Transverse momentum of light lepton 3 prongs",200,0,200);
 
+    h_lep_eta_loose = new TH1F("lep_eta_loose","Eta of light lepton 1/3 prongs",50,-2.5,2.5);
     h_lep_eta_1p_cuts = new TH1F("lep_eta_1p_cuts","Eta of light lepton 1 prongs",50,-2.5,2.5);
     h_lep_eta_1p_cuts_tpt = new TH1F("lep_eta_1p_cuts_tpt","Eta of light lepton 1 prongs",50,-2.5,2.5);
     h_lep_eta_3p_cuts = new TH1F("lep_eta_3p_cuts","Eta of light lepton 3 prongs",50,-2.5,2.5);
@@ -164,6 +165,7 @@ void CLoop::Book(double lumFactor) {
     h_tau_pt_3p_cuts = new TH2F("tau_pt_3p_cuts","Transverse momentum of tau lepton 3 prongs",200,0,200,2,0,2);
     h_tau_pt_3p_cuts_tpt = new TH2F("tau_pt_3p_cuts_tpt","Transverse momentum of tau lepton 3 prongs",200,0,200,2,0,2);
 
+    h_tau_eta_loose = new TH1F("tau_eta_loose","Eta of tau lepton 1/3 prongs",50,-2.5,2.5);
     h_tau_eta_1p_cuts = new TH2F("tau_eta_1p_cuts","Eta of tau lepton 1 prongs",50,-2.5,2.5,2,0,2);
     h_tau_eta_1p_cuts_tpt = new TH2F("tau_eta_1p_cuts_tpt","Eta of tau lepton 1 prongs",50,-2.5,2.5,2,0,2);
     h_tau_eta_3p_cuts = new TH2F("tau_eta_3p_cuts","Eta of tau lepton 3 prongs",50,-2.5,2.5,2,0,2);
@@ -853,6 +855,8 @@ void CLoop::Fill(double weight, int z_sample) {
                   h_lep_pt0_topo_dphi_btag_iso_rnn->Fill(muon_0_p4->Pt(),weight);
                   h_lep_pt1_topo_dphi_btag_iso_rnn->Fill(tau_0_p4->Pt(),weight);
                   h_omega_topo_dphi_btag_iso_rnn->Fill(omega,weight);
+                  h_tau_eta_loose->Fill(tau_0_p4->Eta(),weight);
+                  h_lep_eta_loose->Fill(muon_0_p4->Eta(),weight);
 
                   if (inside) {
                     h_reco_mass_topo_dphi_btag_iso_rnn->Fill(reco_mass,weight);
@@ -1514,6 +1518,9 @@ void CLoop::Style(double lumFactor) {
     h_n_taus_loose_topo_cuts->Write();
     h_n_taus_tight_topo->Write();
     h_n_taus_tight_topo_cuts->Write();
+
+    h_tau_eta_loose->Write();
+    h_lep_eta_loose->Write();
 }
 
 #endif // End header guard

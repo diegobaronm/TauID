@@ -282,4 +282,7 @@ TH1F * h_n_taus_loose_topo_cuts;
 TH1F * h_n_taus_tight_topo;
 TH1F * h_n_taus_tight_topo_cuts;
 
+TH1F * h_tau_eta_loose;
+TH1F * h_lep_eta_loose;
+
 #endif
