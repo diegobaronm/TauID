@@ -821,6 +821,8 @@ void CLoop::Fill(double weight, int z_sample) {
                 h_lep_pt0_topo_dphi_btag_iso->Fill(muon_0_p4->Pt(),weight);
                 h_lep_pt1_topo_dphi_btag_iso->Fill(tau_0_p4->Pt(),weight);
                 h_omega_topo_dphi_btag_iso->Fill(omega,weight);
+                h_tau_eta_loose->Fill(tau_0_p4->Eta(),weight);
+                h_lep_eta_loose->Fill(muon_0_p4->Eta(),weight);
 
                 if (inside) {
                   h_reco_mass_topo_dphi_btag_iso->Fill(reco_mass,weight);
@@ -855,8 +857,7 @@ void CLoop::Fill(double weight, int z_sample) {
                   h_lep_pt0_topo_dphi_btag_iso_rnn->Fill(muon_0_p4->Pt(),weight);
                   h_lep_pt1_topo_dphi_btag_iso_rnn->Fill(tau_0_p4->Pt(),weight);
                   h_omega_topo_dphi_btag_iso_rnn->Fill(omega,weight);
-                  h_tau_eta_loose->Fill(tau_0_p4->Eta(),weight);
-                  h_lep_eta_loose->Fill(muon_0_p4->Eta(),weight);
+                  
 
                   if (inside) {
                     h_reco_mass_topo_dphi_btag_iso_rnn->Fill(reco_mass,weight);
